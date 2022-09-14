@@ -1,9 +1,9 @@
-type Location = {
+export type Location = {
   latitude: number;
   longitude: number;
 };
 
-type City= {
+export type City = {
   name: string;
   location: Location;
 };

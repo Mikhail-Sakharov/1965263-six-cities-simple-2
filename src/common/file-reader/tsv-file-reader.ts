@@ -40,7 +40,7 @@ export default class TSVFileReader implements FileReaderInterface {
         maxAdults: Number(maxAdults),
         price: Number(price),
         goods: goods.split(';'),
-        host: [host.split(';')].map(([name, email, avatarUrl, password, isPro]) => ({ //должен быть объект - как сделать?
+        host: [host.split(';')].map(([name, email, avatarUrl, password, isPro]) => ({
           name,
           email,
           avatarUrl,
