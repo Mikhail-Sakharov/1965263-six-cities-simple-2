@@ -22,16 +22,16 @@ export class UserEntity extends defaultClasses.TimeStamps implements Host {
     this.isPro = data.isPro;
   }
 
-  @prop({minLength: [1, 'Min length for name is 1'], maxLength: [15, 'Max length for firstname is 15'], required: true})
+  @prop({minLength: [1, 'Min length for name is 1'], maxLength: [15, 'Max length for name is 15'], required: true})
   public name!: string;
 
-  @prop({unique: true, match: [/^([\w-\\.]+@([\w-]+\.)+[\w-]{2,4})?$/, 'Email is incorrect'], required: true})
+  @prop({unique: true, /* match: [/^([\w-\\.]+@([\w-]+\.)+[\w-]{2,4})?$/, 'Email is incorrect'],  */required: true})
   public email!: string;
 
   @prop({match: [/^.+(?:.jpg)|.+(?:.png)$/, 'Avatar is invalid']})
   public avatarUrl!: string;
 
-  @prop({minLength: [6, 'Min length for name is 6'], maxLength: [12, 'Max length for firstname is 12'], required: true})
+  @prop({/* minLength: [6, 'Min length for password is 6'], maxLength: [12, 'Max length for password is 12'],  */required: true})
   public password!: string;
 
   @prop()
