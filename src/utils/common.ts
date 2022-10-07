@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import {Offer} from '../types/offer.js';
+import {Offer} from '../types/offer.type.js';
 
 export const createOffer = (row: string) => {
   const tokens = row.replace('\n', '').split('\t');

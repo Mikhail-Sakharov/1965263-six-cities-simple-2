@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import {WeekDays, RatingValuesRange, BedroomsRange, maxAdultsRange, Price, PasswordDigitsRange, CommentsRange} from '../../const.js';
 import {MockData} from '../../types/mock-data.type.js';
-import {City} from '../../types/offer.js';
+import {City} from '../../types/offer.type.js';
 import {getRandomItems, getRandomItem, generateRandomValue} from '../../utils/random.js';
 import {OfferGeneratorInterface} from './offer-generator.interface.js';
 

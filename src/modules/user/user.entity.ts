@@ -1,4 +1,4 @@
-import {Host} from '../../types/offer.js';
+import {Host} from '../../types/offer.type.js';
 import typegoose, {getModelForClass, defaultClasses} from '@typegoose/typegoose';
 import {createSHA256} from '../../utils/common.js';
 

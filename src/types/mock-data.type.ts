@@ -1,4 +1,4 @@
-import {City} from './offer.js';
+import {City} from './offer.type.js';
 
 export type MockData = {
   cities: City[];

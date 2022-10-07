@@ -1,6 +1,6 @@
 export const Price = {
-  MIN: 500,
-  MAX: 2000
+  MIN: 100,
+  MAX: 100000
 };
 
 export const WeekDays = {
@@ -31,4 +31,31 @@ export const maxAdultsRange = {
 export const RatingValuesRange = {
   MIN: 1,
   MAX: 5
+};
+
+export const TitleLength = {
+  MIN: 10,
+  MAX: 100
+};
+
+export const DescriptionLength = {
+  MIN: 20,
+  MAX: 1024
+};
+
+export const RatingCount = {
+  MIN: 1,
+  MAX: 5
+};
+
+export const RATING_REG_EXP = /^[1-5].[1-9]$|^[1-5]$/;
+
+export const BedroomsCount = {
+  MIN: 1,
+  MAX: 8
+};
+
+export const MaxAdultsCount = {
+  MIN: 1,
+  MAX: 10
 };

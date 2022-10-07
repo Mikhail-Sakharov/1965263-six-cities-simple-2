@@ -12,7 +12,7 @@ import OfferService from '../modules/offer/offer.service.js';
 import {UserServiceInterface} from '../modules/user/user-service.interface.js';
 import {UserModel} from '../modules/user/user.entity.js';
 import UserService from '../modules/user/user.service.js';
-import {Offer} from '../types/offer.js';
+import {Offer} from '../types/offer.type.js';
 
 const DEFAULT_DB_PORT = 27017;
 const DEFAULT_USER_PASSWORD = '123456';
@@ -37,14 +37,14 @@ export default class ImportCommand implements CliCommandInterface {
   }
 
   private async saveOffer(offer: Offer) {
-    const user = await this.userService.findOrCreate({
+    const host = await this.userService.findOrCreate({
       ...offer.host,
       password: DEFAULT_USER_PASSWORD
     }, this.salt);
 
     await this.offerService.create({
       ...offer,
-      host: user
+      host
     });
   }
 
