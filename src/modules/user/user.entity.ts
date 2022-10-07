@@ -1,6 +1,7 @@
-import {Host} from '../../types/offer.type.js';
+import {Host} from '../../types/offer.type.js';   // Двойные импорты!
 import typegoose, {getModelForClass, defaultClasses} from '@typegoose/typegoose';
-import {createSHA256} from '../../utils/common.js';
+import {createSHA256} from '../../utils/common.js';   // Двойные импорты!
+import {UserNameLength, EMAIL_REG_EXP, AVATAR_URL_REG_EXP} from '../../const.js';   // Двойные импорты!
 
 const {prop, modelOptions} = typegoose;
 
@@ -22,16 +23,16 @@ export class UserEntity extends defaultClasses.TimeStamps implements Host {
     this.isPro = data.isPro;
   }
 
-  @prop({minLength: [1, 'Min length for name is 1'], maxLength: [15, 'Max length for name is 15'], required: true})
+  @prop({minLength: [UserNameLength.MIN, `Min length for name is ${UserNameLength.MIN}`], maxLength: [UserNameLength.MAX, `Max length for name is ${UserNameLength.MAX}`], required: true})
   public name!: string;
 
-  @prop({unique: true, /* match: [/^([\w-\\.]+@([\w-]+\.)+[\w-]{2,4})?$/, 'Email is incorrect'],  */required: true})
+  @prop({unique: true, match: [EMAIL_REG_EXP, 'Email is incorrect'], required: true})
   public email!: string;
 
-  @prop({match: [/^.+(?:.jpg)|.+(?:.png)$/, 'Avatar is invalid']})
+  @prop({match: [AVATAR_URL_REG_EXP, 'Avatar is invalid']})
   public avatarUrl!: string;
 
-  @prop({/* minLength: [6, 'Min length for password is 6'], maxLength: [12, 'Max length for password is 12'],  */required: true})
+  @prop({required: true})
   public password!: string;
 
   @prop()

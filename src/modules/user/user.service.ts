@@ -3,8 +3,8 @@ import {UserEntity} from './user.entity.js';
 import {DocumentType, types} from '@typegoose/typegoose';
 import CreateUserDto from './dto/create-user.dto.js';
 import {UserServiceInterface} from './user-service.interface.js';
-import {LoggerInterface} from '../../common/logger/logger.interface.js';
-import {Component} from '../../types/component.types.js';
+import {LoggerInterface} from '../../common/logger/logger.interface.js'; // Двойные импорты!
+import {Component} from '../../types/component.types.js'; // Двойные импорты!
 
 @injectable()
 export default class UserService implements UserServiceInterface {
@@ -14,6 +14,9 @@ export default class UserService implements UserServiceInterface {
   ) {}
 
   public async create(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
+    if (dto.password.length < 6 || dto.password.length > 12) {
+      this.logger.error('Password length must be between 6 and 12 characters');
+    }
     const user = new UserEntity(dto);
     user.setPassword(dto.password, salt);
 

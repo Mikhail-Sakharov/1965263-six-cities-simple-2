@@ -59,3 +59,12 @@ export const MaxAdultsCount = {
   MIN: 1,
   MAX: 10
 };
+
+export const UserNameLength = {
+  MIN: 1,
+  MAX: 15
+};
+
+export const EMAIL_REG_EXP = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,5}$/;
+
+export const AVATAR_URL_REG_EXP = /^.+(?:.jpg)|.+(?:.png)$/;

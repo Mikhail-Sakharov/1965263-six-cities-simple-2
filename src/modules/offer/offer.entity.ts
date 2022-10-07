@@ -1,4 +1,4 @@
-import {City, Good, Location, OfferType} from '../../types/offer.type.js';
+import {City, Good, Location, OfferType} from '../../types/offer.type.js'; // Двойные импорты!
 import typegoose, {getModelForClass, defaultClasses, Ref} from '@typegoose/typegoose';
 import {UserEntity} from '../user/user.entity.js';
 import {TitleLength, DescriptionLength, RatingCount, RATING_REG_EXP, BedroomsCount, MaxAdultsCount, Price} from '../../const.js';

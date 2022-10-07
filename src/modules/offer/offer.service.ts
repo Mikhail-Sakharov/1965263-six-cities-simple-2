@@ -3,8 +3,8 @@ import {OfferServiceInterface} from './offer-service.interface.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
 import {DocumentType, types} from '@typegoose/typegoose';
 import {OfferEntity} from './offer.entity.js';
-import {Component} from '../../types/component.types.js';
-import {LoggerInterface} from '../../common/logger/logger.interface.js';
+import {Component} from '../../types/component.types.js'; // Двойные импорты!
+import {LoggerInterface} from '../../common/logger/logger.interface.js'; // Двойные импорты!
 
 @injectable()
 export default class OfferService implements OfferServiceInterface {
