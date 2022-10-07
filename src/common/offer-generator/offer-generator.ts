@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
-import {WeekDays, RatingValuesRange, BedroomsRange, maxAdultsRange, Price, PasswordDigitsRange, CommentsRange} from '../../const.js';
+import {WeekDays, RatingValuesRange, BedroomsRange, maxAdultsRange, Price, PasswordDigitsRange, CommentsRange} from '../../const.js'; // Двойные импорты!
 import {MockData} from '../../types/mock-data.type.js';
-import {City} from '../../types/offer.js';
+import {City} from '../../types/offer.type.js'; // Двойные импорты!
 import {getRandomItems, getRandomItem, generateRandomValue} from '../../utils/random.js';
 import {OfferGeneratorInterface} from './offer-generator.interface.js';
 
@@ -30,7 +30,7 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const avatarUrl = getRandomItem<string>(this.mockData.avatars);
     const password = `${getRandomItem<string>(this.mockData.names)}${generateRandomValue(PasswordDigitsRange.MIN, PasswordDigitsRange.MAX)}`;
     const isPro = Boolean(generateRandomValue(0, 1)).toString();
-    const host = `${hostName}${hostEmail}${avatarUrl}${password}${isPro}`;
+    const host = `${hostName};${hostEmail};${avatarUrl};${password};${isPro}`;
 
     const commentsCount = generateRandomValue(CommentsRange.MIN, CommentsRange.MAX).toString();
 
@@ -56,7 +56,7 @@ export default class OfferGenerator implements OfferGeneratorInterface {
       host,
       commentsCount,
       location
-    ].join('\t'); //а надо ли приводить к строке, если всё рано join?
+    ].join('\t');
   }
 }
 
