@@ -1,0 +1,327 @@
+openapi: 3.1.0
+info:
+  title: API сервер для проекта «Шесть городов»
+  description: |-
+    * Список ресурсов и маршрутов сервера «Шесть городов»
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 1.0.0
+
+tags:
+- name: offers
+  description: Действия с объявлениями
+- name: users
+  description: Действия с пользователем
+- name: comments
+  description: Действия с комментариями
+
+paths:
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: Регистрация пользователя
+      description: Регистрирует нового пользователя
+
+      requestBody:
+        description: Информация для создания нового пользователя
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+
+      responses:
+        "201":
+          description: Пользователь зарегистрирован Объект пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+        "409":
+          description: Пользователь с таким email уже существует
+
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: Авторизация пользователя
+      description: Авторизует пользователя на основе логина и пароля
+
+      requestBody:
+        description: Информация для авторизации пользователя
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loginUser'
+        required: true
+
+      responses:
+        "200":
+          description: Пользователь авторизован
+
+        "401":
+          description: Пользователь не авторизован
+
+    get:
+      tags:
+        - users
+      summary: Проверка состояния авторизации пользователя
+      description: Возвращает информацию о статусе авторизации
+
+      requestBody:
+        description: Информация для проверки статуса авторизации
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loginUser'
+        required: true
+
+      responses:
+        "200":
+          description: Пользователь авторизован
+
+        "401":
+          description: Пользователь не авторизован
+
+  /offers:
+    get:
+      tags:
+        - offers
+      summary: Получить предложения по аренде
+      description: По умолчанию ресурс возвращает не больше 60 предложений по аренде, отсортированных по дате публикации
+
+      responses:
+        "200":
+          description: Получен список предложений по аренде
+
+  /offers/create:
+    post:
+      tags:
+        - offers
+      summary: Создать предложение по аренде
+      description: Создаёт предложение по аренде
+  
+      requestBody:
+          description: Информация для создания предложения по аренде
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+          required: true
+  
+      responses:
+          "201":
+            description: Предложение по аренде создано Объект предложения
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/offer'
+  
+          "401":
+            description: Пользователь не авторизован
+
+  /offers/{offerId}/delete:
+    delete:
+      tags:
+        - offers
+      summary: Удаление предложения по аренде
+      description: Удаляет предложение по аренде
+
+      responses:
+        "204":
+          description: Предложение по аренде удалено
+
+        "401":
+          description: Пользователь не авторизован
+
+  /offers/{offerId}/update:
+    put:
+      tags:
+        - offers
+      summary: Редактирование предложения по аренде
+      description: Редактирует предложение по аренде
+
+      requestBody:
+        description: Информация для редактирования предложения по аренде
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/offer'
+        required: true
+
+      responses:
+        "200":
+          description: Предложение по аренде отредактировано Отредактированный объект предложения
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+
+        "403":
+          description: Доступ запрещён
+
+        "401":
+          description: Пользователь не авторизован
+
+  /comments/{offerId}:
+    post:
+      - comments
+    summary: Создать комментарий
+    description: Создаёт комментарий
+
+    requestBody:
+        description: Информация для создания комменария
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/comment'
+        required: true
+
+components:
+  schemas:
+    createUser:
+      type: object
+
+      properties:
+        name:
+          type: string
+          example: John
+
+        email:
+          type: string
+          example: example@example.com
+
+        avatarUrl:
+          type: string
+          example: ./img/example.jpg
+
+        password:
+          type: string
+          example: 123456
+
+        isPro:
+          type: string
+          example: true
+
+    user:
+      type: object
+
+      properties:
+        id:
+          type: string
+          example: 634017ba711b20efa888a055
+
+        email:
+          type: string
+          example: example@example.com
+
+    loginUser:
+      type: object
+
+      properties:
+        email:
+          type: string
+          example: example@example.com
+
+        password:
+          type: string
+          example: 123456
+
+    offer:
+      type: object
+
+      properties:
+        title:
+          type: string
+          example: Wood and stone place
+
+        description:
+          type: string
+          example: I am happy to welcome you to my apartment in the city center!
+
+        date:
+          type: string
+          example: '2022-10-01T14:22:49.318Z'
+
+        city:
+          type: object
+          example: {
+            "name": "Paris",
+            "location": {
+              "latitude": 48.85661,
+              "longitude": 2.351499
+            }
+          }
+
+        previewImage:
+          type: string
+          example: ./img/example.jpg
+
+        images:
+          type: object
+          example: [
+            "https://8.react.pages.academy/static/hotel/14.jpg",
+            "https://8.react.pages.academy/static/hotel/4.jpg",
+            "https://8.react.pages.academy/static/hotel/18.jpg",
+            "https://8.react.pages.academy/static/hotel/3.jpg",
+            "https://8.react.pages.academy/static/hotel/13.jpg",
+            "https://8.react.pages.academy/static/hotel/2.jpg"
+          ]
+
+        isPremium:
+          type: boolean
+          example: true
+
+        rating:
+          type: number
+          example: 4
+
+        type:
+          type: string
+          example: house
+
+        bedrooms:
+          type: number
+          example: 5
+
+        maxAdults:
+          type: number
+          example: 3
+
+        price:
+          type: number
+          example: 456
+
+        goods:
+          type: object
+          example: [
+            "Fridge",
+            "Towels",
+            "Dishwasher"
+          ]
+
+        hostId:
+          type: number
+          example: 634017ba711b20efa888a055
+
+        location:
+          type: object
+          example: {
+            "latitude": 53.550341,
+            "longitude": 10.000654
+          }
+
+    comment:
+      type: object
+      
+      properties:
+        rating: 
+          type: number
+          example: 5
+
+        text:
+          type: string
+          example: Peaceful studio in the most wanted area in town
