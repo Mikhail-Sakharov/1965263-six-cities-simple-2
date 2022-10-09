@@ -5,6 +5,7 @@ import {ConfigInterface} from '../common/config/config.interface.js';
 import {Component} from '../types/component.types.js';
 import {getURI} from '../utils/db.js';
 import {DatabaseInterface} from '../common/database-client/database.interface.js';
+import { OfferServiceInterface } from '../modules/offer/offer-service.interface.js';
 
 @injectable()
 export default class Application {
@@ -12,7 +13,8 @@ export default class Application {
   constructor(
     @inject(Component.LoggerInterface) private logger: LoggerInterface,
     @inject(Component.ConfigInterface) private config: ConfigInterface,
-    @inject(Component.DatabaseInterface) private databaseClient: DatabaseInterface) {}
+    @inject(Component.DatabaseInterface) private databaseClient: DatabaseInterface,
+    @inject(Component.OfferServiceInterface) private offerService: OfferServiceInterface) {}
 
   public async init() {
     this.logger.info('Application initialization…');
@@ -27,5 +29,9 @@ export default class Application {
     );
 
     await this.databaseClient.connect(uri);
+
+    // тестирование работы сервисов
+    const offer = await this.offerService.findById('634017bb711b20efa888a075');
+    console.log(offer);
   }
 }
