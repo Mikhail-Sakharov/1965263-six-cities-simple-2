@@ -10,4 +10,5 @@ export interface OfferServiceInterface {
   findByIdAndDelete(offerId: string): Promise<DocumentType<OfferEntity> | null>;
   find(): Promise<DocumentType<OfferEntity>[]>;
   incCommentsCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
+  setOfferRating(offerId: string, rating: number): Promise<DocumentType<OfferEntity> | null>;
 }

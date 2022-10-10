@@ -6,8 +6,8 @@ import {OfferEntity} from './offer.entity.js';
 import {Component} from '../../types/component.types.js'; // Двойные импорты!
 import {LoggerInterface} from '../../common/logger/logger.interface.js'; // Двойные импорты!
 import UpdateOfferDto from './dto/update-offer.dto.js';
-import {SortType} from '../../types/sort-type.enum.js';
-import { OFFERS_LIMIT } from './offer.constant.js';
+import {SortType} from '../../types/sort-type.enum.js'; // Двойные импорты!
+import {OFFERS_LIMIT} from './offer.constant.js';
 
 @injectable()
 export default class OfferService implements OfferServiceInterface {
@@ -23,7 +23,7 @@ export default class OfferService implements OfferServiceInterface {
     return result;
   }
 
-  public async findById(offerId: string): Promise<DocumentType<OfferEntity> | null> { // агрегация?
+  public async findById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findById(offerId)
       .populate(['host'])
@@ -57,5 +57,10 @@ export default class OfferService implements OfferServiceInterface {
       .findByIdAndUpdate(offerId, {'$inc': {
         commentsCount: 1,
       }}).exec();
+  }
+
+  public async setOfferRating(offerId: string, rating: number): Promise<DocumentType<OfferEntity> | null> {
+    return this.offerModel
+      .findByIdAndUpdate(offerId, {'$set': {rating}}).exec();
   }
 }

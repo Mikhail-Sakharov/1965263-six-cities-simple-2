@@ -45,7 +45,7 @@ export default class Application {
     //=======================================================OFFERS====================================================================
 
     // поиск по id
-    //const offer = await this.offerService.findById('634017bb711b20efa888a075');
+    //const offer = await this.offerService.findById('634017bb711b20efa888a078');
     //console.log(offer);
 
     // получение всех офферов из БД
@@ -101,10 +101,10 @@ export default class Application {
 
     // добавление комментария
     /* const exampleComment = {
-      commentText: 'This is the 8th comment of the offer! Congrats!',
-      commentRating: 5,
+      commentText: 'This comment is for changing rating value',
+      commentRating: 2,
       hostId: '634017ba711b20efa888a055',
-      offerId: '634017bb711b20efa888a072'
+      offerId: '634017bb711b20efa888a078'
     } as CreateCommentDto;
     const comment = await this.commentService.create(exampleComment);
     console.log(comment); */

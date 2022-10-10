@@ -1,8 +1,8 @@
 import {types, DocumentType} from '@typegoose/typegoose';
 import {injectable, inject} from 'inversify';
-import {LoggerInterface} from '../../common/logger/logger.interface.js';
-import {Component} from '../../types/component.types.js';
-import {SortType} from '../../types/sort-type.enum.js';
+import {LoggerInterface} from '../../common/logger/logger.interface.js'; // Двойные импорты!
+import {Component} from '../../types/component.types.js'; // Двойные импорты!
+import {SortType} from '../../types/sort-type.enum.js'; // Двойные импорты!
 import {OfferServiceInterface} from '../offer/offer-service.interface.js';
 import {CommentServiceInterface} from './comment-service.interface.js';
 import {COMMENTS_COUNT_LIMIT} from './comment.constant.js';
@@ -19,7 +19,14 @@ export default class CommentService implements CommentServiceInterface {
 
   public async create(dto: CreateCommentDto): Promise<DocumentType<CommentEntity>> {
     const result = await this.commentModel.create(dto);
+
     this.offerModel.incCommentsCount(dto.offerId);
+
+    const comments = await this.findByOfferId(dto.offerId);
+    const commentsTotalCount = comments.length;
+    const rating = comments.reduce((res, comment) => res + comment.commentRating, 0)/commentsTotalCount;
+    this.offerModel.setOfferRating(dto.offerId, rating);
+
     this.logger.info('New comment created');
 
     return result;
