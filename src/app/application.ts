@@ -5,9 +5,13 @@ import {ConfigInterface} from '../common/config/config.interface.js';
 import {Component} from '../types/component.types.js';
 import {getURI} from '../utils/db.js';
 import {DatabaseInterface} from '../common/database-client/database.interface.js';
+
 // импорты для тестов
-import { OfferServiceInterface } from '../modules/offer/offer-service.interface.js';
+//import { OfferServiceInterface } from '../modules/offer/offer-service.interface.js';
+import { CommentServiceInterface } from '../modules/comment/comment-service.interface.js';
+//import CreateCommentDto from '../modules/comment/dto/create-comment.dto.js';
 //import UpdateOfferDto from '../modules/offer/dto/update-offer.dto.js';
+
 
 @injectable()
 export default class Application {
@@ -16,7 +20,8 @@ export default class Application {
     @inject(Component.LoggerInterface) private logger: LoggerInterface,
     @inject(Component.ConfigInterface) private config: ConfigInterface,
     @inject(Component.DatabaseInterface) private databaseClient: DatabaseInterface,
-    @inject(Component.OfferServiceInterface) private offerService: OfferServiceInterface) {}
+    //@inject(Component.OfferServiceInterface) private offerService: OfferServiceInterface,
+    @inject(Component.CommentServiceInterface) private commentService: CommentServiceInterface) {}
 
   public async init() {
     this.logger.info('Application initialization…');
@@ -80,7 +85,20 @@ export default class Application {
     //console.log(offer);
 
     // инкремент поля commentsCount
-    const offer = await this.offerService.incCommentsCount('634017bb711b20efa888a0e4');
-    console.log(offer);
+    //const offer = await this.offerService.incCommentsCount('634017bb711b20efa888a0e4');
+    //console.log(offer);
+
+    // получение комментариев определённого оффера
+    const comments = await this.commentService.findByOfferId('634017bb711b20efa888a0e4');
+    console.log(comments);
+
+    // добавление комментария
+    /* const exampleComment = {
+      commentText: 'Hello world!',
+      commentRating: 4,
+      hostId: '634017ba711b20efa888a055'
+    } as CreateCommentDto;
+    const coment = await this.commentService.create(exampleComment);
+    console.log(coment); */
   }
 }

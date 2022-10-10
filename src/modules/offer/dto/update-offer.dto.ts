@@ -1,4 +1,4 @@
-import {City, OfferType, Good, Location} from '../../../types/offer.type.js';
+import {City, OfferType, Good, Location} from '../../../types/offer.type.js';  // двойные импорты!
 
 export default class UpdateOfferDto {
   public title?: string;
