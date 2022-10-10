@@ -7,8 +7,9 @@ import {getURI} from '../utils/db.js';
 import {DatabaseInterface} from '../common/database-client/database.interface.js';
 
 // импорты для тестов
+//import { UserServiceInterface } from '../modules/user/user-service.interface.js';
 //import { OfferServiceInterface } from '../modules/offer/offer-service.interface.js';
-import { CommentServiceInterface } from '../modules/comment/comment-service.interface.js';
+//import { CommentServiceInterface } from '../modules/comment/comment-service.interface.js';
 //import CreateCommentDto from '../modules/comment/dto/create-comment.dto.js';
 //import UpdateOfferDto from '../modules/offer/dto/update-offer.dto.js';
 
@@ -20,8 +21,10 @@ export default class Application {
     @inject(Component.LoggerInterface) private logger: LoggerInterface,
     @inject(Component.ConfigInterface) private config: ConfigInterface,
     @inject(Component.DatabaseInterface) private databaseClient: DatabaseInterface,
+    //@inject(Component.UserServiceInterface) private userService: UserServiceInterface,
     //@inject(Component.OfferServiceInterface) private offerService: OfferServiceInterface,
-    @inject(Component.CommentServiceInterface) private commentService: CommentServiceInterface) {}
+    //@inject(Component.CommentServiceInterface) private commentService: CommentServiceInterface
+  ) {}
 
   public async init() {
     this.logger.info('Application initialization…');
@@ -38,6 +41,8 @@ export default class Application {
     await this.databaseClient.connect(uri);
 
     // тестирование работы сервисов
+
+    //=======================================================OFFERS====================================================================
 
     // поиск по id
     //const offer = await this.offerService.findById('634017bb711b20efa888a075');
@@ -88,17 +93,33 @@ export default class Application {
     //const offer = await this.offerService.incCommentsCount('634017bb711b20efa888a0e4');
     //console.log(offer);
 
+    //=======================================================COMMENTS==================================================================
+
     // получение комментариев определённого оффера
-    const comments = await this.commentService.findByOfferId('634017bb711b20efa888a0e4');
-    console.log(comments);
+    //const comments = await this.commentService.findByOfferId('634017bb711b20efa888a072');
+    //console.log(comments);
 
     // добавление комментария
     /* const exampleComment = {
-      commentText: 'Hello world!',
-      commentRating: 4,
-      hostId: '634017ba711b20efa888a055'
+      commentText: 'This is the 8th comment of the offer! Congrats!',
+      commentRating: 5,
+      hostId: '634017ba711b20efa888a055',
+      offerId: '634017bb711b20efa888a072'
     } as CreateCommentDto;
-    const coment = await this.commentService.create(exampleComment);
-    console.log(coment); */
+    const comment = await this.commentService.create(exampleComment);
+    console.log(comment); */
+
+    //=======================================================USERS====================================================================
+
+    // создание юзера
+    /* const exampleUser = {
+      name: 'Mikhail',
+      email: 'qwe@qweasd.com',
+      avatarUrl: './img/qwe.png',
+      password: '123456',
+      isPro: true
+    };
+    const user = await this.userService.create(exampleUser, 'i74fhwf6t7643gf');
+    console.log(user); */
   }
 }
