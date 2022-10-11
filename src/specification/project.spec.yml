@@ -168,17 +168,39 @@ paths:
 
   /comments/{offerId}:
     post:
-      - comments
-    summary: Создать комментарий
-    description: Создаёт комментарий
+      tags:
+        - comments
+      summary: Создать комментарий
+      description: Создаёт комментарий
+  
+      requestBody:
+          description: Информация для создания комменария
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+          required: true
+  
+      responses:
+          "201":
+            description: Комментарий создан Объект комментария
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/comment'
+  
+          "401":
+            description: Пользователь не авторизован
 
-    requestBody:
-        description: Информация для создания комменария
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/comment'
-        required: true
+    get:
+      tags:
+        - comments
+      summary: Получить список комментариев
+      description: Получает список комментариев
+  
+      responses:
+        "200":
+          description: Получен список комментариев
 
 components:
   schemas:
@@ -304,7 +326,7 @@ components:
           ]
 
         hostId:
-          type: number
+          type: string
           example: 634017ba711b20efa888a055
 
         location:
@@ -325,3 +347,7 @@ components:
         text:
           type: string
           example: Peaceful studio in the most wanted area in town
+
+        hostId:
+          type: string
+          example: 634017ba711b20efa888a055 
