@@ -340,14 +340,18 @@ components:
       type: object
       
       properties:
-        rating: 
+        commentRating: 
           type: number
           example: 5
 
-        text:
+        commentText:
           type: string
           example: Peaceful studio in the most wanted area in town
 
         hostId:
           type: string
-          example: 634017ba711b20efa888a055 
+          example: 634017ba711b20efa888a055
+
+        createdAt:
+          type: string
+          example: '2022-10-01T14:22:49.318Z'

@@ -5,6 +5,8 @@ import {ConfigInterface} from '../common/config/config.interface.js';
 import {Component} from '../types/component.types.js';
 import {getURI} from '../utils/db.js';
 import {DatabaseInterface} from '../common/database-client/database.interface.js';
+import express, {Express} from 'express';
+import {ControllerInterface} from '../common/controller/controller.interface.js';
 
 // импорты для тестов
 //import { UserServiceInterface } from '../modules/user/user-service.interface.js';
@@ -16,15 +18,27 @@ import {DatabaseInterface} from '../common/database-client/database.interface.js
 
 @injectable()
 export default class Application {
+  private expressApp: Express;
 
   constructor(
     @inject(Component.LoggerInterface) private logger: LoggerInterface,
     @inject(Component.ConfigInterface) private config: ConfigInterface,
     @inject(Component.DatabaseInterface) private databaseClient: DatabaseInterface,
+    @inject(Component.CommentController) private commentController: ControllerInterface,
     //@inject(Component.UserServiceInterface) private userService: UserServiceInterface,
     //@inject(Component.OfferServiceInterface) private offerService: OfferServiceInterface,
     //@inject(Component.CommentServiceInterface) private commentService: CommentServiceInterface
-  ) {}
+  ) {
+    this.expressApp = express();
+  }
+
+  public initRoutes() {
+    this.expressApp.use('/comments', this.commentController.router);
+  }
+
+  public initMiddleware() {
+    this.expressApp.use(express.json());
+  }
 
   public async init() {
     this.logger.info('Application initialization…');
@@ -39,6 +53,11 @@ export default class Application {
     );
 
     await this.databaseClient.connect(uri);
+
+    this.initMiddleware();
+    this.initRoutes();
+    this.expressApp.listen(this.config.get('PORT'));
+    this.logger.info(`Express server started on http://localhost:${this.config.get('PORT')}`);
 
     // тестирование работы сервисов
 

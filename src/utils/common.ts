@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import {plainToInstance, ClassConstructor} from 'class-transformer';
 import {Offer} from '../types/offer.type.js';
 
 export const createOffer = (row: string) => {
@@ -46,3 +47,6 @@ export const createSHA256 = (line: string, salt: string): string => {
   const shaHasher = crypto.createHmac('sha256', salt);
   return shaHasher.update(line).digest('hex');
 };
+
+export const fillDTO = <T, V>(someDto: ClassConstructor<T>, plainObject: V) =>
+  plainToInstance(someDto, plainObject, {excludeExtraneousValues: true});
