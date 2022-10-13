@@ -178,7 +178,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/comment'
+                $ref: '#/components/schemas/commentRequest'
           required: true
   
       responses:
@@ -187,7 +187,7 @@ paths:
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/comment'
+                  $ref: '#/components/schemas/commentResponse'
   
           "401":
             description: Пользователь не авторизован
@@ -201,6 +201,10 @@ paths:
       responses:
         "200":
           description: Получен список комментариев
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/commentResponse'
 
 components:
   schemas:
@@ -336,7 +340,23 @@ components:
             "longitude": 10.000654
           }
 
-    comment:
+    commentRequest:
+      type: object
+      
+      properties:
+        commentRating: 
+          type: number
+          example: 5
+
+        commentText:
+          type: string
+          example: Peaceful studio in the most wanted area in town
+
+        hostId:
+          type: string
+          example: 634017ba711b20efa888a055
+
+    commentResponse:
       type: object
       
       properties:

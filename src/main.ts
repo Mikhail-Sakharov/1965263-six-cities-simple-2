@@ -20,6 +20,7 @@ import {CommentEntity, CommentModel} from './modules/comment/comment.entity.js';
 import CommentService from './modules/comment/comment.service.js';
 import {ControllerInterface} from './common/controller/controller.interface.js';
 import CommentController from './modules/comment/comment.controller.js';
+import OfferController from './modules/offer/offer.controller.js';
 
 const applicationContainer = new Container();
 
@@ -39,6 +40,7 @@ applicationContainer.bind<CommentServiceInterface>(Component.CommentServiceInter
 applicationContainer.bind<types.ModelType<CommentEntity>>(Component.CommentModel).toConstantValue(CommentModel);
 
 applicationContainer.bind<ControllerInterface>(Component.CommentController).to(CommentController).inSingletonScope();
+applicationContainer.bind<ControllerInterface>(Component.OfferController).to(OfferController).inSingletonScope();
 
 const application = applicationContainer.get<Application>(Component.Application);
 await application.init();

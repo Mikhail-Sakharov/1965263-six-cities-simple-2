@@ -25,6 +25,7 @@ export default class Application {
     @inject(Component.ConfigInterface) private config: ConfigInterface,
     @inject(Component.DatabaseInterface) private databaseClient: DatabaseInterface,
     @inject(Component.CommentController) private commentController: ControllerInterface,
+    @inject(Component.OfferController) private offerController: ControllerInterface,
     //@inject(Component.UserServiceInterface) private userService: UserServiceInterface,
     //@inject(Component.OfferServiceInterface) private offerService: OfferServiceInterface,
     //@inject(Component.CommentServiceInterface) private commentService: CommentServiceInterface
@@ -34,6 +35,7 @@ export default class Application {
 
   public initRoutes() {
     this.expressApp.use('/comments', this.commentController.router);
+    this.expressApp.use('/offers', this.offerController.router);
   }
 
   public initMiddleware() {
