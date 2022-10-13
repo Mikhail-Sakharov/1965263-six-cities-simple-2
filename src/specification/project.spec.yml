@@ -138,7 +138,7 @@ paths:
           description: Пользователь не авторизован
 
   /offers/{offerId}/update:
-    put:
+    patch:
       tags:
         - offers
       summary: Редактирование предложения по аренде

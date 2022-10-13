@@ -7,7 +7,6 @@ import {HttpMethod} from '../../types/http-method.enum.js';
 import {OfferServiceInterface} from './offer-service.interface.js';
 import OfferResponse from './response/offer.response.js';
 import {fillDTO} from '../../utils/common.js';
-//import {INITIAL_RATING_VALUE, INITIAL_COMMENTS_COUNT_VALUE} from './offer.constant.js';
 
 @injectable()
 export default class OfferController extends Controller {
@@ -21,8 +20,8 @@ export default class OfferController extends Controller {
 
     this.addRoute({path: '/', method: HttpMethod.Get, handler: this.index});
     this.addRoute({path: '/create', method: HttpMethod.Post, handler: this.create});
-    //this.addRoute({path: '/:id/update', method: HttpMethod.Post, handler: this.update});
-    //this.addRoute({path: '/:id/delete', method: HttpMethod.Post, handler: this.delete});
+    this.addRoute({path: '/:id/update', method: HttpMethod.Patch, handler: this.update});
+    this.addRoute({path: '/:id/delete', method: HttpMethod.Delete, handler: this.delete});
   }
 
   public async index(_req: Request, res: Response): Promise<void> {
@@ -34,18 +33,17 @@ export default class OfferController extends Controller {
   public async create({body}: Request, res: Response): Promise<void> {
     const offer = await this.offerService.create(body);
     const offerResponse = fillDTO(OfferResponse, offer);
+    this.created(res, offerResponse);
+  }
+
+  public async update({body, params}: Request, res: Response): Promise<void> {
+    const offer = await this.offerService.findByIdAndUpdate(params.id, body);
+    const offerResponse = fillDTO(OfferResponse, offer);
     this.ok(res, offerResponse);
   }
 
-  /* public async update({body, params}: Request, res: Response): Promise<void> {
-    const comment = await this.commentService.create({...body, offerId: params.id});
-    const commentResponse = fillDTO(CommentResponse, comment);
-    this.ok(res, commentResponse);
-  } */
-
-  /* public async delete({body, params}: Request, res: Response): Promise<void> {
-    const comment = await this.commentService.create({...body, offerId: params.id});
-    const commentResponse = fillDTO(CommentResponse, comment);
-    this.ok(res, commentResponse);
-  } */
+  public async delete({params}: Request, res: Response): Promise<void> {
+    const comment = await this.offerService.findByIdAndDelete(params.id);
+    this.noContent(res, comment);
+  }
 }

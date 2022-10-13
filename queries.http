@@ -51,3 +51,14 @@ Content-Type: application/json
         "longitude": 6.959973
       }
 }
+###
+PATCH http://localhost:5555/offers/63483f0a70075c482b2064e4/update HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Update offer",
+  "description": "This title was changed by the offer-controller update method",
+  "isPremium": false
+}
+###
+DELETE http://localhost:5555/offers/63483f0a70075c482b2064e4/delete HTTP/1.1

@@ -75,35 +75,12 @@ export default class Application {
 
     // обновление оффера
     /* const exampleOffer = {
-      title: 'Hello world!',
-      description: 'Relax',
-      date: '2022-09-28T14:22:49.323Z',
-      city: {
-        name: 'Cologne',
-        location: {
-          latitude: 50.938361,
-          longitude: 6.959974
-        }
-      },
+      title: 'Hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh',
+      description: 'Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
       previewImage: 'https://8.react.pages.academy/static/hotel/11.jpg',
-      images: [
-        'https://8.react.pages.academy/static/hotel/6.jpg',
-        'https://8.react.pages.academy/static/hotel/15.jpg',
-        'https://8.react.pages.academy/static/hotel/6.jpg',
-        'https://8.react.pages.academy/static/hotel/15.jpg',
-        'https://8.react.pages.academy/static/hotel/9.jpg',
-        'https://8.react.pages.academy/static/hotel/7.jpg'
-      ],
-      isPremium: true,
-      rating: 4,
-      type: 'apartment',
-      bedrooms: 2,
-      maxAdults: 8,
-      price: 1551,
-      goods: [ 'Washer', 'Breakfast', 'Fridge', 'Towels', 'Dishwasher' ],
-      location: { latitude: 60.78583676534535, longitude: 16.239914550134912 }
+      isPremium: false
     } as UpdateOfferDto;
-    const offer = await this.offerService.findByIdAndUpdate('634017bb711b20efa888a075', exampleOffer);
+    const offer = await this.offerService.findByIdAndUpdate('63483e58f5ba6ca3253dedc6', exampleOffer);
     console.log(offer); */
 
     // удаление оффера
