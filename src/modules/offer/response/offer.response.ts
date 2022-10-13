@@ -1,8 +1,11 @@
-import {Expose} from 'class-transformer';
+import {Expose, Type} from 'class-transformer';
 import {City, Good, Location, OfferType} from '../../../types/offer.type.js';
 import UserResponse from '../../user/response/user.response.js';
 
 export default class OfferResponse {
+  @Expose()
+  public id!: string;
+
   @Expose()
   public title!: string;
 
@@ -43,7 +46,8 @@ export default class OfferResponse {
   public goods!: Good[];
 
   @Expose()
-  public host!: UserResponse; // ссылка на сущность пользователя
+  @Type(() => UserResponse)
+  public hostId!: UserResponse;
 
   @Expose()
   public commentsCount!: number;

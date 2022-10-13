@@ -1,9 +1,9 @@
-import {City, Good, Host, Location, OfferType} from '../../../types/offer.type.js';
+import {City, Good, Location, OfferType} from '../../../types/offer.type.js';
 
 export default class CreateOfferDto {
   public title!: string;
   public description!: string;
-  public date!: string;
+  //public date!: string;
   public city!: City;
   public previewImage!: string;
   public images!: [string, string, string, string, string, string];
@@ -14,7 +14,7 @@ export default class CreateOfferDto {
   public maxAdults!: number;
   public price!: number;
   public goods!: Good[];
-  public host!: Host;
+  public hostId!: string;
   public commentsCount!: number;
   public location!: Location;
 }

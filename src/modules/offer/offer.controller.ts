@@ -5,9 +5,9 @@ import {Component} from '../../types/component.types.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import {HttpMethod} from '../../types/http-method.enum.js';
 import {OfferServiceInterface} from './offer-service.interface.js';
-//import OfferResponse from './response/offer.response.js';
-//import {fillDTO} from '../../utils/common.js';
-//import CommentResponse from './response/comment.response.js';
+import OfferResponse from './response/offer.response.js';
+import {fillDTO} from '../../utils/common.js';
+//import {INITIAL_RATING_VALUE, INITIAL_COMMENTS_COUNT_VALUE} from './offer.constant.js';
 
 @injectable()
 export default class OfferController extends Controller {
@@ -20,22 +20,22 @@ export default class OfferController extends Controller {
     this.logger.info('Register routes for OfferController…');
 
     this.addRoute({path: '/', method: HttpMethod.Get, handler: this.index});
-    //this.addRoute({path: '/create', method: HttpMethod.Post, handler: this.create});
+    this.addRoute({path: '/create', method: HttpMethod.Post, handler: this.create});
     //this.addRoute({path: '/:id/update', method: HttpMethod.Post, handler: this.update});
     //this.addRoute({path: '/:id/delete', method: HttpMethod.Post, handler: this.delete});
   }
 
   public async index(_req: Request, res: Response): Promise<void> {
     const offers = await this.offerService.find();
-    //const offersResponse = fillDTO(OfferResponse, offers);
-    this.ok(res, offers);
+    const offersResponse = fillDTO(OfferResponse, offers);
+    this.ok(res, offersResponse);
   }
 
-  /* public async create({body, params}: Request, res: Response): Promise<void> {
-    const comment = await this.commentService.create({...body, offerId: params.id});
-    const commentResponse = fillDTO(CommentResponse, comment);
-    this.ok(res, commentResponse);
-  } */
+  public async create({body}: Request, res: Response): Promise<void> {
+    const offer = await this.offerService.create(body);
+    const offerResponse = fillDTO(OfferResponse, offer);
+    this.ok(res, offerResponse);
+  }
 
   /* public async update({body, params}: Request, res: Response): Promise<void> {
     const comment = await this.commentService.create({...body, offerId: params.id});
