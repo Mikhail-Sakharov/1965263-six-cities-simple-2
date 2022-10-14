@@ -7,6 +7,8 @@ import {HttpMethod} from '../../types/http-method.enum.js';
 import {OfferServiceInterface} from './offer-service.interface.js';
 import OfferResponse from './response/offer.response.js';
 import {fillDTO} from '../../utils/common.js';
+import CreateOfferDto from './dto/create-offer.dto.js';
+import UpdateOfferDto from './dto/update-offer.dto.js';
 
 @injectable()
 export default class OfferController extends Controller {
@@ -30,14 +32,15 @@ export default class OfferController extends Controller {
     this.ok(res, offersResponse);
   }
 
-  public async create({body}: Request, res: Response): Promise<void> {
+  public async create({body}: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>, res: Response): Promise<void> {
     const offer = await this.offerService.create(body);
     const offerResponse = fillDTO(OfferResponse, offer);
     this.created(res, offerResponse);
   }
 
-  public async update({body, params}: Request, res: Response): Promise<void> {
-    const offer = await this.offerService.findByIdAndUpdate(params.id, body);
+  public async update({body, params}: Request<Record<string, unknown>, Record<string, unknown>, UpdateOfferDto>, res: Response): Promise<void> {
+    const id = String(params.id);
+    const offer = await this.offerService.findByIdAndUpdate(id, body);
     const offerResponse = fillDTO(OfferResponse, offer);
     this.ok(res, offerResponse);
   }

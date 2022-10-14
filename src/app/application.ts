@@ -27,6 +27,7 @@ export default class Application {
     @inject(Component.DatabaseInterface) private databaseClient: DatabaseInterface,
     @inject(Component.CommentController) private commentController: ControllerInterface,
     @inject(Component.OfferController) private offerController: ControllerInterface,
+    @inject(Component.UserController) private userController: ControllerInterface,
     @inject(Component.ExceptionFilterInterface) private exceptionFilter: ExceptionFilterInterface,
     //@inject(Component.UserServiceInterface) private userService: UserServiceInterface,
     //@inject(Component.OfferServiceInterface) private offerService: OfferServiceInterface,
@@ -38,6 +39,7 @@ export default class Application {
   public initRoutes() {
     this.expressApp.use('/comments', this.commentController.router);
     this.expressApp.use('/offers', this.offerController.router);
+    this.expressApp.use('/users', this.userController.router);
   }
 
   public initMiddleware() {
@@ -62,8 +64,8 @@ export default class Application {
 
     await this.databaseClient.connect(uri);
 
-    this.initRoutes();
     this.initMiddleware();
+    this.initRoutes();
     this.initExceptionFilters();
     this.expressApp.listen(this.config.get('PORT'));
     this.logger.info(`Express server started on http://localhost:${this.config.get('PORT')}`);

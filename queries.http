@@ -6,7 +6,7 @@ POST http://localhost:5555/comments/63481078faccc2e7082d7e49 HTTP/1.1
 Content-Type: application/json
 
 {
-  "commentText": "Bot bad",
+  "commentText": "Not bad",
   "commentRating": 3,
   "hostId": "634411e0820f7246f3f50720"
 }
@@ -62,3 +62,22 @@ Content-Type: application/json
 }
 ###
 DELETE http://localhost:5555/offers/63483f0a70075c482b2064e4/delete HTTP/1.1
+###
+POST http://localhost:5555/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Mikhail",
+  "email": "qwe@asd.com",
+  "avatarUrl": "https://8.react.pages.academy/static/hotel/14.jpg",
+  "password": "123456",
+  "isPro": "true"
+}
+###
+POST http://localhost:5555/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "qwe@asd.com",
+  "password": "123456"
+}

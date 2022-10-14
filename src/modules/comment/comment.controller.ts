@@ -7,6 +7,7 @@ import {HttpMethod} from '../../types/http-method.enum.js';
 import {CommentServiceInterface} from './comment-service.interface.js';
 import {fillDTO} from '../../utils/common.js';
 import CommentResponse from './response/comment.response.js';
+import CreateCommentDto from './dto/create-comment.dto.js';
 
 @injectable()
 export default class CommentController extends Controller {
@@ -28,8 +29,9 @@ export default class CommentController extends Controller {
     this.ok(res, commentsResponse);
   }
 
-  public async create({body, params}: Request, res: Response): Promise<void> {
-    const comment = await this.commentService.create({...body, offerId: params.id});
+  public async create({body, params}: Request<Record<string, unknown>, Record<string, unknown>, CreateCommentDto>, res: Response): Promise<void> {
+    const transformedBody = {...body, offerId: params.id} as CreateCommentDto;
+    const comment = await this.commentService.create(transformedBody);
     const commentResponse = fillDTO(CommentResponse, comment);
     this.ok(res, commentResponse);
   }
