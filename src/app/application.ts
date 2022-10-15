@@ -5,6 +5,9 @@ import {ConfigInterface} from '../common/config/config.interface.js';
 import {Component} from '../types/component.types.js';
 import {getURI} from '../utils/db.js';
 import {DatabaseInterface} from '../common/database-client/database.interface.js';
+import express, {Express} from 'express';
+import {ControllerInterface} from '../common/controller/controller.interface.js';
+import {ExceptionFilterInterface} from '../common/errors/exception-filter.interface.js';
 
 // импорты для тестов
 //import { UserServiceInterface } from '../modules/user/user-service.interface.js';
@@ -16,15 +19,36 @@ import {DatabaseInterface} from '../common/database-client/database.interface.js
 
 @injectable()
 export default class Application {
+  private expressApp: Express;
 
   constructor(
     @inject(Component.LoggerInterface) private logger: LoggerInterface,
     @inject(Component.ConfigInterface) private config: ConfigInterface,
     @inject(Component.DatabaseInterface) private databaseClient: DatabaseInterface,
+    @inject(Component.CommentController) private commentController: ControllerInterface,
+    @inject(Component.OfferController) private offerController: ControllerInterface,
+    @inject(Component.UserController) private userController: ControllerInterface,
+    @inject(Component.ExceptionFilterInterface) private exceptionFilter: ExceptionFilterInterface,
     //@inject(Component.UserServiceInterface) private userService: UserServiceInterface,
     //@inject(Component.OfferServiceInterface) private offerService: OfferServiceInterface,
     //@inject(Component.CommentServiceInterface) private commentService: CommentServiceInterface
-  ) {}
+  ) {
+    this.expressApp = express();
+  }
+
+  public initRoutes() {
+    this.expressApp.use('/comments', this.commentController.router);
+    this.expressApp.use('/offers', this.offerController.router);
+    this.expressApp.use('/users', this.userController.router);
+  }
+
+  public initMiddleware() {
+    this.expressApp.use(express.json());
+  }
+
+  public initExceptionFilters() {
+    this.expressApp.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
+  }
 
   public async init() {
     this.logger.info('Application initialization…');
@@ -40,6 +64,12 @@ export default class Application {
 
     await this.databaseClient.connect(uri);
 
+    this.initMiddleware();
+    this.initRoutes();
+    this.initExceptionFilters();
+    this.expressApp.listen(this.config.get('PORT'));
+    this.logger.info(`Express server started on http://localhost:${this.config.get('PORT')}`);
+
     // тестирование работы сервисов
 
     //=======================================================OFFERS====================================================================
@@ -54,35 +84,12 @@ export default class Application {
 
     // обновление оффера
     /* const exampleOffer = {
-      title: 'Hello world!',
-      description: 'Relax',
-      date: '2022-09-28T14:22:49.323Z',
-      city: {
-        name: 'Cologne',
-        location: {
-          latitude: 50.938361,
-          longitude: 6.959974
-        }
-      },
+      title: 'Hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh',
+      description: 'Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
       previewImage: 'https://8.react.pages.academy/static/hotel/11.jpg',
-      images: [
-        'https://8.react.pages.academy/static/hotel/6.jpg',
-        'https://8.react.pages.academy/static/hotel/15.jpg',
-        'https://8.react.pages.academy/static/hotel/6.jpg',
-        'https://8.react.pages.academy/static/hotel/15.jpg',
-        'https://8.react.pages.academy/static/hotel/9.jpg',
-        'https://8.react.pages.academy/static/hotel/7.jpg'
-      ],
-      isPremium: true,
-      rating: 4,
-      type: 'apartment',
-      bedrooms: 2,
-      maxAdults: 8,
-      price: 1551,
-      goods: [ 'Washer', 'Breakfast', 'Fridge', 'Towels', 'Dishwasher' ],
-      location: { latitude: 60.78583676534535, longitude: 16.239914550134912 }
+      isPremium: false
     } as UpdateOfferDto;
-    const offer = await this.offerService.findByIdAndUpdate('634017bb711b20efa888a075', exampleOffer);
+    const offer = await this.offerService.findByIdAndUpdate('63483e58f5ba6ca3253dedc6', exampleOffer);
     console.log(offer); */
 
     // удаление оффера

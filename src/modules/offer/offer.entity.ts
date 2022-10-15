@@ -20,9 +20,6 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public description!: string;
 
   @prop({required: true})
-  public date!: string;
-
-  @prop({required: true})
   public city!: City;
 
   @prop({required: true})
@@ -34,7 +31,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({required: true})
   public isPremium!: boolean;
 
-  @prop({required: true, min: [RatingCount.MIN, `Min rating: ${RatingCount.MIN}`], max: [RatingCount.MAX, `Max rating: ${RatingCount.MAX}`], match: [RATING_REG_EXP, 'A whole number or with a single decimal added is allowed']})
+  @prop({default: 1, required: true, min: [RatingCount.MIN, `Min rating: ${RatingCount.MIN}`], max: [RatingCount.MAX, `Max rating: ${RatingCount.MAX}`], match: [RATING_REG_EXP, 'A whole number or with a single decimal added is allowed']})
   public rating!: number;
 
   @prop({required: true})
@@ -53,7 +50,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public goods!: Good[];
 
   @prop({ref: UserEntity, required: true})
-  public host!: Ref<UserEntity>;
+  public hostId!: Ref<UserEntity>;
 
   @prop({default: 0})
   public commentsCount!: number;

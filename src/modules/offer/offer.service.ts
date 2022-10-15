@@ -33,7 +33,7 @@ export default class OfferService implements OfferServiceInterface {
   public async findByIdAndUpdate(offerId: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndUpdate(offerId, dto, {new: true})
-      .populate(['host'])
+      .populate(['hostId'])
       .exec();
   }
 
@@ -46,7 +46,7 @@ export default class OfferService implements OfferServiceInterface {
   public async find(): Promise<DocumentType<OfferEntity>[]> {
     return this.offerModel
       .find()
-      .populate(['host'])
+      .populate(['hostId'])
       .limit(OFFERS_LIMIT)
       .sort({date: SortType.Down})
       .exec();
