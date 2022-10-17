@@ -97,6 +97,21 @@ paths:
         "200":
           description: Получен список предложений по аренде
 
+  /offers/{offerId}:
+    get:
+      tags:
+        - offers
+      summary: Получить детальную информацию о предложении по аренде
+      description: Получает детальную информацию о предложении по аренде
+
+      responses:
+        "200":
+          description: Получена детальная информация о предложении по аренде
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+
   /offers/create:
     post:
       tags:
