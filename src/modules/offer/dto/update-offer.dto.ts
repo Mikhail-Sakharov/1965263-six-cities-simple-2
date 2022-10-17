@@ -1,4 +1,5 @@
 //import {City, OfferType, Good, Location} from '../../../types/offer.type.js';  // двойные импорты!
+import {Type} from 'class-transformer';
 import {
   MinLength,
   MaxLength,
@@ -12,7 +13,8 @@ import {
   Max,
   ValidateNested,
   IsNumber,
-  IsOptional
+  IsOptional,
+  IsString
 } from 'class-validator';
 
 enum Good {
@@ -69,8 +71,8 @@ export default class UpdateOfferDto {
   public description?: string;
 
   @IsOptional()
-  //@IsObject({message: 'This is not a "City" type object!'}) // не реагирует на невалидные данные
-  //@IsInstance(City) // возвращает ошибку даже при валидных данных
+  @ValidateNested({each: true})
+  @Type(() => City)
   public city?: City;
 
   @IsOptional()
@@ -78,9 +80,10 @@ export default class UpdateOfferDto {
   public previewImage?: string;
 
   @IsOptional()
-  @IsArray({message: 'The field "images" should be an array'}) // как провалидироваь кортеж: тип элементов?
+  @IsArray({message: 'The field "images" should be an array'})
   @ArrayMinSize(6)
   @ArrayMaxSize(6)
+  @IsString({each: true})
   public images?: [string, string, string, string, string, string];
 
   @IsOptional()
@@ -111,10 +114,11 @@ export default class UpdateOfferDto {
 
   @IsOptional()
   @IsArray({message: 'The field "goods" should be an array'})
-  //@IsEnum(Good, {message: 'This is not a "Good" type value!'}) // возвращает ошибку даже при валидных данных, не реагирует на невалидные значения внутри массива
+  @IsEnum(Good, {each: true})
   public goods?: Good[];
 
   @IsOptional()
-  @ValidateNested({message: 'This is not a "Location" type object!'}) // не реагирует на невалидные данные
+  @ValidateNested({each: true})
+  @Type(() => Location)
   public location?: Location;
 }

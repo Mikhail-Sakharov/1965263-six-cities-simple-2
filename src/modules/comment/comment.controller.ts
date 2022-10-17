@@ -60,7 +60,8 @@ export default class CommentController extends Controller {
     {body, params}: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, CreateCommentDto>,
     res: Response
   ): Promise<void> {
-    const transformedBody = {...body, offerId: params.id};
+    const offerId = params.id;
+    const transformedBody = {...body, offerId};
     const comment = await this.commentService.create(transformedBody);
     const commentResponse = fillDTO(CommentResponse, comment);
     this.ok(res, commentResponse);

@@ -1,15 +1,15 @@
 //import {City, Good, Location, OfferType} from '../../../types/offer.type.js'; // Двойные импорты!
+import {Type} from 'class-transformer';
 import {
   ArrayMaxSize,
   ArrayMinSize,
   IsArray,
   IsBoolean,
   IsEnum,
-  //IsInstance,
   IsInt,
   IsMongoId,
   IsNumber,
-  //IsObject,
+  IsString,
   Max,
   MaxLength,
   Min,
@@ -68,16 +68,17 @@ export default class CreateOfferDto {
   @MaxLength(1024, {message: 'Maximum description length is 1024'})
   public description!: string;
 
-  //@IsObject({message: 'This is not a "City" type object!'}) // не реагирует на невалидные данные
-  //@IsInstance(City) // возвращает ошибку даже при валидных данных
+  @ValidateNested({each: true})
+  @Type(() => City)
   public city!: City;
 
   @MaxLength(256, {message: 'Too long for the field "previewImage"'})
   public previewImage!: string;
 
-  @IsArray({message: 'The field "images" should be an array'}) // как провалидироваь кортеж: тип элементов?
+  @IsArray({message: 'The field "images" should be an array'})
   @ArrayMinSize(6)
   @ArrayMaxSize(6)
+  @IsString({each: true})
   public images!: [string, string, string, string, string, string];
 
   @IsBoolean({message: 'The field "isPremium" should be a boolean'})
@@ -102,12 +103,13 @@ export default class CreateOfferDto {
   public price!: number;
 
   @IsArray({message: 'The field "goods" should be an array'})
-  //@IsEnum(Good, {message: 'This is not a "Good" type value!'}) // возвращает ошибку даже при валидных данных, не реагирует на невалидные значения внутри массива
+  @IsEnum(Good, {each: true})
   public goods!: Good[];
 
   @IsMongoId({message: 'The "hostId" field should be a valid MongoDB id'})
   public hostId!: string;
 
-  @ValidateNested({message: 'This is not a "Location" type object!'}) // не реагирует на невалидные данные
+  @ValidateNested({each: true})
+  @Type(() => Location)
   public location!: Location;
 }
