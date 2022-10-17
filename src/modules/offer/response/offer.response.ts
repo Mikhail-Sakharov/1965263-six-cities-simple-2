@@ -1,6 +1,6 @@
 import {Expose, Type} from 'class-transformer';
-import {City, Good, Location, OfferType} from '../../../types/offer.type.js';
-import UserResponse from '../../user/response/user.response.js';
+import {City, Good, Location, OfferType} from '../../../types/offer.type.js'; // Двойные импорты!
+import UserResponse from '../../user/response/user.response.js'; // Двойные импорты!
 
 export default class OfferResponse {
   @Expose()
@@ -12,8 +12,8 @@ export default class OfferResponse {
   @Expose()
   public description!: string;
 
-  @Expose()
-  public createdAt!: string;
+  @Expose({name: 'createdAt'})
+  public date!: string;
 
   @Expose()
   public city!: City;
@@ -45,9 +45,9 @@ export default class OfferResponse {
   @Expose()
   public goods!: Good[];
 
-  @Expose()
+  @Expose({name: 'hostId'})
   @Type(() => UserResponse)
-  public hostId!: UserResponse;
+  public host!: UserResponse;
 
   @Expose()
   public commentsCount!: number;

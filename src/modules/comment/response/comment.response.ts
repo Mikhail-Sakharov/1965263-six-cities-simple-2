@@ -1,4 +1,5 @@
-import {Expose} from 'class-transformer';
+import {Expose, Type} from 'class-transformer';
+import UserResponse from '../../user/response/user.response.js'; // Двойные импорты!
 
 export default class CommentResponse {
   @Expose()
@@ -7,9 +8,10 @@ export default class CommentResponse {
   @Expose()
   public commentText!: string;
 
-  @Expose()
-  public hostId!: string;
+  @Expose({name: 'hostId'})
+  @Type(() => UserResponse)
+  public host!: UserResponse;
 
-  @Expose()
-  public createdAt!: string;
+  @Expose({name: 'createdAt'})
+  public date!: string;
 }
