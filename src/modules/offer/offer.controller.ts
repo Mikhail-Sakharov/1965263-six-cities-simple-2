@@ -1,7 +1,6 @@
 import {Request, Response} from 'express';
 import {inject, injectable} from 'inversify';
 import * as core from 'express-serve-static-core';
-import {StatusCodes} from 'http-status-codes';
 import {Controller} from '../../common/controller/controller.js'; // Двойные импорты!
 import {Component} from '../../types/component.types.js'; // Двойные импорты!
 import {LoggerInterface} from '../../common/logger/logger.interface.js'; // Двойные импорты!
@@ -11,9 +10,9 @@ import OfferResponse from './response/offer.response.js';
 import {fillDTO} from '../../utils/common.js'; // Двойные импорты!
 import CreateOfferDto from './dto/create-offer.dto.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
-import HttpError from '../../common/errors/http-error.js'; // Двойные импорты!
-import {ValidateObjectIdMiddleware} from '../../common/middlewares/validate-objectid.middleware.js';
-import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware.js';
+import {ValidateObjectIdMiddleware} from '../../common/middlewares/validate-objectid.middleware.js'; // Двойные импорты!
+import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware.js'; // Двойные импорты!
+import {DocumentExistsMiddleware} from '../../common/middlewares/document-exists.middleware.js'; // Двойные импорты!
 
 type ParamsGetOffer = {
   id: string;
@@ -34,7 +33,10 @@ export default class OfferController extends Controller {
       path: '/:id',
       method: HttpMethod.Get,
       handler: this.show,
-      middlewares: [new ValidateObjectIdMiddleware('id')]
+      middlewares: [
+        new ValidateObjectIdMiddleware('id'),
+        new DocumentExistsMiddleware(this.offerService, 'id')
+      ]
     });
     this.addRoute({
       path: '/create',
@@ -46,13 +48,20 @@ export default class OfferController extends Controller {
       path: '/:id/update',
       method: HttpMethod.Patch,
       handler: this.update,
-      middlewares: [new ValidateObjectIdMiddleware('id'), new ValidateDtoMiddleware(UpdateOfferDto)]
+      middlewares: [
+        new ValidateObjectIdMiddleware('id'),
+        new ValidateDtoMiddleware(UpdateOfferDto),
+        new DocumentExistsMiddleware(this.offerService, 'id')
+      ]
     });
     this.addRoute({
       path: '/:id/delete',
       method: HttpMethod.Delete,
       handler: this.delete,
-      middlewares: [new ValidateObjectIdMiddleware('id')]
+      middlewares: [
+        new ValidateObjectIdMiddleware('id'),
+        new DocumentExistsMiddleware(this.offerService, 'id')
+      ]
     });
   }
 
@@ -62,56 +71,41 @@ export default class OfferController extends Controller {
     this.ok(res, offersResponse);
   }
 
-  public async show({params}: Request<core.ParamsDictionary | ParamsGetOffer>, res: Response) {
+  public async show(
+    {params}: Request<core.ParamsDictionary | ParamsGetOffer>,
+    res: Response
+  ) {
     const {id} = params;
     const offer = await this.offerService.findById(id);
-
-    if (!offer) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with the id ${id} not found.`,
-        'OfferController'
-      );
-    }
-
     const offerResponse = fillDTO(OfferResponse, offer);
     this.ok(res, offerResponse);
   }
 
   // при создании нужно привязывать к юзеру: проверка существования юзера по id - при авторизации?
-  public async create({body}: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>, res: Response): Promise<void> {
+  public async create(
+    {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>,
+    res: Response
+  ): Promise<void> {
     const offer = await this.offerService.create(body);
     const offerResponse = fillDTO(OfferResponse, offer);
     this.created(res, offerResponse);
   }
 
-  public async update({body, params}: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDto>, res: Response): Promise<void> {
+  public async update(
+    {body, params}: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDto>,
+    res: Response
+  ): Promise<void> {
     const id = String(params.id);
     const offer = await this.offerService.findByIdAndUpdate(id, body);
-
-    if (!offer) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with the id ${params.id} not found.`,
-        'OfferController'
-      );
-    }
-
     const offerResponse = fillDTO(OfferResponse, offer);
     this.ok(res, offerResponse);
   }
 
-  public async delete({params}: Request<core.ParamsDictionary | ParamsGetOffer>, res: Response): Promise<void> {
+  public async delete(
+    {params}: Request<core.ParamsDictionary | ParamsGetOffer>,
+    res: Response
+  ): Promise<void> {
     const offer = await this.offerService.findByIdAndDelete(params.id);
-
-    if (!offer) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with the id ${params.id} not found.`,
-        'OfferController'
-      );
-    }
-
     this.noContent(res, offer);
   }
 }

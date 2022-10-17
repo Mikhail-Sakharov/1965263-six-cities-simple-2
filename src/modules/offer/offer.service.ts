@@ -16,6 +16,10 @@ export default class OfferService implements OfferServiceInterface {
     @inject(Component.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>
   ) {}
 
+  public async exists(documentId: string): Promise<boolean> {
+    return !!await this.findById(documentId);
+  }
+
   public async create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>> {
     const result = await this.offerModel.create(dto);
     this.logger.info(`New offer created: ${dto.title}`);

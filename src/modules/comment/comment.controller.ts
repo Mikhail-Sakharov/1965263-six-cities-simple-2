@@ -10,10 +10,9 @@ import {fillDTO} from '../../utils/common.js'; // Двойные импорты!
 import CommentResponse from './response/comment.response.js';
 import CreateCommentDto from './dto/create-comment.dto.js';
 import {ValidateObjectIdMiddleware} from '../../common/middlewares/validate-objectid.middleware.js';
-import {OfferServiceInterface} from '../offer/offer-service.interface.js';
-import {StatusCodes} from 'http-status-codes';
-import HttpError from '../../common/errors/http-error.js';
-import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware.js';
+import {OfferServiceInterface} from '../offer/offer-service.interface.js'; // Двойные импорты!
+import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware.js'; // Двойные импорты!
+import {DocumentExistsMiddleware} from '../../common/middlewares/document-exists.middleware.js'; // Двойные импорты!
 
 type ParamsGetOffer = {
   id: string;
@@ -34,39 +33,33 @@ export default class CommentController extends Controller {
       path: '/:id',
       method: HttpMethod.Get,
       handler: this.index,
-      middlewares: [new ValidateObjectIdMiddleware('id')]
+      middlewares: [
+        new ValidateObjectIdMiddleware('id'),
+        new DocumentExistsMiddleware(this.offerService, 'id')
+      ]
     });
     this.addRoute({
       path: '/:id',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateObjectIdMiddleware('id'), new ValidateDtoMiddleware(CreateCommentDto)]
+      middlewares: [
+        new ValidateObjectIdMiddleware('id'),
+        new ValidateDtoMiddleware(CreateCommentDto),
+        new DocumentExistsMiddleware(this.offerService, 'id')
+      ]
     });
   }
 
   public async index(req: Request, res: Response): Promise<void> {
-    if (!await this.offerService.findById(req.params.id)) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with the id ${req.params.id} not found.`,
-        'OfferController'
-      );
-    }
-
     const comments = await this.commentService.findByOfferId(req.params.id);
     const commentsResponse = fillDTO(CommentResponse, comments);
     this.ok(res, commentsResponse);
   }
 
-  public async create({body, params}: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, CreateCommentDto>, res: Response): Promise<void> {
-    if (!await this.offerService.findById(params.id)) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with the id ${params.id} not found.`,
-        'OfferController'
-      );
-    }
-
+  public async create(
+    {body, params}: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, CreateCommentDto>,
+    res: Response
+  ): Promise<void> {
     const transformedBody = {...body, offerId: params.id};
     const comment = await this.commentService.create(transformedBody);
     const commentResponse = fillDTO(CommentResponse, comment);
