@@ -83,3 +83,13 @@ Content-Type: application/json
   "email": "qwe@asd.com",
   "password": "123456"
 }
+###
+POST http://localhost:5555/users/63499697a8f9cff62a88852b/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="avatar.png"
+Content-Type: image/png
+
+< /home/mikhail/tmp/avatar.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

@@ -11,6 +11,7 @@ export type ConfigSchema = {
   DB_PASSWORD: string;
   DB_PORT: number;
   DB_NAME: string;
+  UPLOAD_DIRECTORY: string;
 }
 
 export const configSchema = convict<ConfigSchema>({
@@ -36,24 +37,30 @@ export const configSchema = convict<ConfigSchema>({
     doc: 'Username for the database connection (MongoDB)',
     format: String,
     env: 'DB_USER',
-    default: null,
+    default: null
   },
   DB_PASSWORD: {
     doc: 'Database connection password (MongoDB)',
     format: String,
     env: 'DB_PASSWORD',
-    default: null,
+    default: null
   },
   DB_PORT: {
     doc: 'Port for the database connection (MongoDB)',
     format: 'port',
     env: 'DB_PORT',
-    default: 27017,
+    default: 27017
   },
   DB_NAME: {
     doc: 'Database name (MongoDB)',
     format: String,
     env: 'DB_NAME',
     default: 'six-cities-simple-test'
+  },
+  UPLOAD_DIRECTORY: {
+    doc: 'Data storage directory',
+    format: String,
+    env: 'UPLOAD_DIRECTORY',
+    default: null
   }
 });
