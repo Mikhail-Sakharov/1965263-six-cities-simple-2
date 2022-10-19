@@ -81,16 +81,17 @@ export default class OfferController extends Controller {
     this.ok(res, offerResponse);
   }
 
-  // при создании нужно привязывать к юзеру: проверка существования юзера по id - при авторизации?
   public async create(
-    {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>,
+    {body, user}: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>,
     res: Response
   ): Promise<void> {
-    const offer = await this.offerService.create(body);
+    const hostId = user.id;
+    const offer = await this.offerService.create({...body, hostId});
     const offerResponse = fillDTO(OfferResponse, offer);
     this.created(res, offerResponse);
   }
 
+  // приватный маршрут?
   public async update(
     {body, params}: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDto>,
     res: Response

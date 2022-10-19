@@ -7,7 +7,7 @@ import {
   IsBoolean,
   IsEnum,
   IsInt,
-  IsMongoId,
+  //IsMongoId,
   IsNumber,
   IsString,
   Max,
@@ -106,7 +106,7 @@ export default class CreateOfferDto {
   @IsEnum(Good, {each: true})
   public goods!: Good[];
 
-  @IsMongoId({message: 'The "hostId" field should be a valid MongoDB id'})
+  //@IsMongoId({message: 'The "hostId" field should be a valid MongoDB id'})
   public hostId!: string;
 
   @ValidateNested({each: true})

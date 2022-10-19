@@ -1,4 +1,4 @@
-import {IsInt, Max, Min, IsMongoId, IsString, Length} from 'class-validator';
+import {IsInt, Max, Min, IsString, Length} from 'class-validator';
 
 export default class CreateCommentDto {
   @IsString({message: 'text is required'})
@@ -10,7 +10,6 @@ export default class CreateCommentDto {
   @Max(5, {message: 'Max rating is 5'})
   public commentRating!: number;
 
-  @IsMongoId({message: 'The "hostId" field should be a valid MongoDB id'})
   public hostId!: string;
 
   // валидация выполняется раньше, чем объект формируется для отправки в метод create коммент-сервиса!
