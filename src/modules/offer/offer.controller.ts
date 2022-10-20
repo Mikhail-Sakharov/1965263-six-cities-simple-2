@@ -13,6 +13,7 @@ import UpdateOfferDto from './dto/update-offer.dto.js';
 import {ValidateObjectIdMiddleware} from '../../common/middlewares/validate-objectid.middleware.js'; // Двойные импорты!
 import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware.js'; // Двойные импорты!
 import {DocumentExistsMiddleware} from '../../common/middlewares/document-exists.middleware.js'; // Двойные импорты!
+import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
 
 type ParamsGetOffer = {
   id: string;
@@ -42,13 +43,17 @@ export default class OfferController extends Controller {
       path: '/create',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateOfferDto)]
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateOfferDto)
+      ]
     });
     this.addRoute({
       path: '/:id/update',
       method: HttpMethod.Patch,
       handler: this.update,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('id'),
         new ValidateDtoMiddleware(UpdateOfferDto),
         new DocumentExistsMiddleware(this.offerService, 'id')
@@ -59,6 +64,7 @@ export default class OfferController extends Controller {
       method: HttpMethod.Delete,
       handler: this.delete,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('id'),
         new DocumentExistsMiddleware(this.offerService, 'id')
       ]
@@ -81,12 +87,12 @@ export default class OfferController extends Controller {
     this.ok(res, offerResponse);
   }
 
-  // при создании нужно привязывать к юзеру: проверка существования юзера по id - при авторизации?
   public async create(
-    {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>,
+    {body, user}: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>,
     res: Response
   ): Promise<void> {
-    const offer = await this.offerService.create(body);
+    const hostId = user.id;
+    const offer = await this.offerService.create({...body, hostId});
     const offerResponse = fillDTO(OfferResponse, offer);
     this.created(res, offerResponse);
   }
@@ -101,7 +107,7 @@ export default class OfferController extends Controller {
     this.ok(res, offerResponse);
   }
 
-  public async delete(
+  public async delete( // при удалении оффера удалить комментарии
     {params}: Request<core.ParamsDictionary | ParamsGetOffer>,
     res: Response
   ): Promise<void> {

@@ -29,7 +29,7 @@ export default class CommentService implements CommentServiceInterface {
 
     this.logger.info('New comment created');
 
-    return result;
+    return result.populate('hostId');
   }
 
   public async findByOfferId(offerId: string): Promise<DocumentType<CommentEntity>[]> {

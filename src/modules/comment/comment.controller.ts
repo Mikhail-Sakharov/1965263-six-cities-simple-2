@@ -13,6 +13,7 @@ import {ValidateObjectIdMiddleware} from '../../common/middlewares/validate-obje
 import {OfferServiceInterface} from '../offer/offer-service.interface.js'; // Двойные импорты!
 import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware.js'; // Двойные импорты!
 import {DocumentExistsMiddleware} from '../../common/middlewares/document-exists.middleware.js'; // Двойные импорты!
+import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
 
 type ParamsGetOffer = {
   id: string;
@@ -43,6 +44,7 @@ export default class CommentController extends Controller {
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('id'),
         new ValidateDtoMiddleware(CreateCommentDto),
         new DocumentExistsMiddleware(this.offerService, 'id')
@@ -57,13 +59,14 @@ export default class CommentController extends Controller {
   }
 
   public async create(
-    {body, params}: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, CreateCommentDto>,
+    {body, user, params}: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, CreateCommentDto>,
     res: Response
   ): Promise<void> {
+    const hostId = user.id;
     const offerId = params.id;
-    const transformedBody = {...body, offerId};
+    const transformedBody = {...body, hostId, offerId};
     const comment = await this.commentService.create(transformedBody);
     const commentResponse = fillDTO(CommentResponse, comment);
-    this.ok(res, commentResponse);
+    this.created(res, commentResponse);
   }
 }
