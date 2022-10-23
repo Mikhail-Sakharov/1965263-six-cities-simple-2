@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
 import {inject, injectable} from 'inversify';
 import * as core from 'express-serve-static-core';
+import {StatusCodes} from 'http-status-codes';
 import {Controller} from '../../common/controller/controller.js'; // Двойные импорты!
 import {Component} from '../../types/component.types.js'; // Двойные импорты!
 import {LoggerInterface} from '../../common/logger/logger.interface.js'; // Двойные импорты!
@@ -15,6 +16,8 @@ import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middl
 import {DocumentExistsMiddleware} from '../../common/middlewares/document-exists.middleware.js'; // Двойные импорты!
 import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
 import {CommentServiceInterface} from '../comment/comment-service.interface.js';
+import HttpError from '../../common/errors/http-error.js'; // Двойные импорты!
+//import {instanceToPlain} from 'class-transformer';
 
 type ParamsGetOffer = {
   id: string;
@@ -101,21 +104,42 @@ export default class OfferController extends Controller {
   }
 
   public async update(
-    {body, params}: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDto>,
+    {body, params, user}: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDto>,
     res: Response
   ): Promise<void> {
-    const id = String(params.id);
-    const offer = await this.offerService.findByIdAndUpdate(id, body);
-    const offerResponse = fillDTO(OfferResponse, offer);
+    const offer = await this.offerService.findById(params.id);
+    const offerCreatorEmail = fillDTO(OfferResponse, offer).host.email;
+
+    if (user.email !== offerCreatorEmail) {
+      throw new HttpError(
+        StatusCodes.FORBIDDEN,
+        'Forbidden',
+        'OfferController: update'
+      );
+    }
+
+    const updatedOffer = await this.offerService.findByIdAndUpdate(params.id, body);
+    const offerResponse = fillDTO(OfferResponse, updatedOffer);
     this.ok(res, offerResponse);
   }
 
-  public async delete( // при удалении оффера удалить комментарии
-    {params}: Request<core.ParamsDictionary | ParamsGetOffer>,
+  public async delete(
+    {params, user}: Request<core.ParamsDictionary | ParamsGetOffer>,
     res: Response
   ): Promise<void> {
-    const offer = await this.offerService.findByIdAndDelete(params.id);
+    const offer = await this.offerService.findById(params.id);
+    const offerCreatorEmail = fillDTO(OfferResponse, offer).host.email;
+
+    if (user.email !== offerCreatorEmail) {
+      throw new HttpError(
+        StatusCodes.FORBIDDEN,
+        'Forbidden',
+        'OfferController: delete'
+      );
+    }
+
+    const deletedOffer = await this.offerService.findByIdAndDelete(params.id);
     await this.commentService.deleteByOfferId(params.id);
-    this.noContent(res, offer);
+    this.noContent(res, deletedOffer);
   }
 }
