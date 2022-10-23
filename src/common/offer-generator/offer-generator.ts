@@ -1,5 +1,4 @@
-import dayjs from 'dayjs';
-import {WeekDays, RatingValuesRange, BedroomsRange, maxAdultsRange, Price, PasswordDigitsRange, CommentsRange} from '../../const.js'; // Двойные импорты!
+import {BedroomsRange, maxAdultsRange, Price, PasswordDigitsRange} from '../../const.js'; // Двойные импорты!
 import {MockData} from '../../types/mock-data.type.js';
 import {City} from '../../types/offer.type.js'; // Двойные импорты!
 import {getRandomItems, getRandomItem, generateRandomValue} from '../../utils/random.js';
@@ -11,14 +10,12 @@ export default class OfferGenerator implements OfferGeneratorInterface {
   public generate(): string {
     const title = getRandomItem<string>(this.mockData.titles);
     const description = getRandomItem<string>(this.mockData.descriptions);
-    const date =  dayjs().subtract(generateRandomValue(WeekDays.FIRST, WeekDays.LAST), 'day').toISOString();
 
     const cityData = getRandomItem<City>(this.mockData.cities);
     const city = [Object.values(cityData)].map(([name, location]) => `${name};${Object.values(location).join(',')}`);
     const previewImage = getRandomItem<string>(this.mockData.images);
     const images = getRandomItems<string>(this.mockData.images).join(';');
     const isPremium = Boolean(generateRandomValue(0, 1)).toString();
-    const rating = generateRandomValue(RatingValuesRange.MIN, RatingValuesRange.MAX).toString();
     const type = getRandomItem<string>(this.mockData.types);
     const bedrooms = generateRandomValue(BedroomsRange.MIN, BedroomsRange.MAX).toString();
     const maxAdults = generateRandomValue(maxAdultsRange.MIN, maxAdultsRange.MAX).toString();
@@ -32,8 +29,6 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const isPro = Boolean(generateRandomValue(0, 1)).toString();
     const host = `${hostName};${hostEmail};${avatarUrl};${password};${isPro}`;
 
-    const commentsCount = generateRandomValue(CommentsRange.MIN, CommentsRange.MAX).toString();
-
     const locationData = cityData.location;
     locationData.latitude += Math.random();
     locationData.longitude += Math.random();
@@ -42,19 +37,16 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     return [
       title,
       description,
-      date,
       city,
       previewImage,
       images,
       isPremium,
-      rating,
       type,
       bedrooms,
       maxAdults,
       price,
       goods,
       host,
-      commentsCount,
       location
     ].join('\t');
   }

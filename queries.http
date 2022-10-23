@@ -1,10 +1,10 @@
 GET http://localhost:8888/api HTTP/1.1
 ###
-GET http://localhost:5555/comments/635062490a6044ef6030f45b HTTP/1.1
+GET http://localhost:5555/comments/63559056b14edb7b5281305e HTTP/1.1
 ###
-POST http://localhost:5555/comments/63553eea61c67db9aaa9970b HTTP/1.1
+POST http://localhost:5555/comments/63559056b14edb7b5281305e HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGMuY29tIiwiaWQiOiI2MzUwNWI0Nzc4YjQ2N2Y5OTk5OWE1ODgiLCJpYXQiOjE2NjY1MzEwMjIsImV4cCI6MTY2NjcwMzgyMn0.CBD65bnxQiXJIDwbfdsNHLhwzjFbVZX-BMuV0YTU40w
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZCI6IjYzNTU4ZWY0YjE0ZWRiN2I1MjgxMzAyZCIsImlhdCI6MTY2NjU1MTU2MiwiZXhwIjoxNjY2NzI0MzYyfQ.x18ZF03LY1lD5Z73bICWQZxNmxTPo8vWQasUigrGV9Q
 
 {
   "commentText": "Creating comments for deleting an offer",
@@ -15,11 +15,11 @@ GET http://localhost:5555/offers HTTP/1.1
 ###
 GET http://localhost:5555/offers/?offersCount=4 HTTP/1.1
 ###
-GET http://localhost:5555/offers/6355409261c67db9aaa9972a HTTP/1.1
+GET http://localhost:5555/offers/63559056b14edb7b5281305e HTTP/1.1
 ###
 POST http://localhost:5555/offers/create HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGMuY29tIiwiaWQiOiI2MzUwNWI0Nzc4YjQ2N2Y5OTk5OWE1ODgiLCJpYXQiOjE2NjY1MzEwMjIsImV4cCI6MTY2NjcwMzgyMn0.CBD65bnxQiXJIDwbfdsNHLhwzjFbVZX-BMuV0YTU40w
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZCI6IjYzNTU4ZWY0YjE0ZWRiN2I1MjgxMzAyZCIsImlhdCI6MTY2NjU1MTU2MiwiZXhwIjoxNjY2NzI0MzYyfQ.x18ZF03LY1lD5Z73bICWQZxNmxTPo8vWQasUigrGV9Q
 
 {
   "title": "$$$$$$$$$$$$$$$$$$",
@@ -56,9 +56,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGMuY29tIiwiaWQiO
       }
 }
 ###
-PATCH http://localhost:5555/offers/63554fba23fe63bba50ac093/update HTTP/1.1
+PATCH http://localhost:5555/offers/63559056b14edb7b5281305e/update HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNhLmNvbSIsImlkIjoiNjM1NTUxYzIzMTE3MjU0YTFkMTg0NmVmIiwiaWF0IjoxNjY2NTM1ODg1LCJleHAiOjE2NjY3MDg2ODV9.k_KZCmNrpfq64zYfvQ3Dv_ms-9JenTZ9RABJKGdKTxU
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZCI6IjYzNTU4ZWY0YjE0ZWRiN2I1MjgxMzAyZCIsImlhdCI6MTY2NjU1MTU2MiwiZXhwIjoxNjY2NzI0MzYyfQ.x18ZF03LY1lD5Z73bICWQZxNmxTPo8vWQasUigrGV9Q
 
 {
   "title": "Updated offer!",
@@ -66,8 +66,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNhLmNvbSIsImlkI
   "isPremium": false
 }
 ###
-DELETE http://localhost:5555/offers/6355452c4309b14961635997/delete HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGMuY29tIiwiaWQiOiI2MzUwNWI0Nzc4YjQ2N2Y5OTk5OWE1ODgiLCJpYXQiOjE2NjY1MzEwMjIsImV4cCI6MTY2NjcwMzgyMn0.CBD65bnxQiXJIDwbfdsNHLhwzjFbVZX-BMuV0YTU40w
+DELETE http://localhost:5555/offers/63559056b14edb7b5281305e/delete HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZCI6IjYzNTU4ZWY0YjE0ZWRiN2I1MjgxMzAyZCIsImlhdCI6MTY2NjU1MTU2MiwiZXhwIjoxNjY2NzI0MzYyfQ.x18ZF03LY1lD5Z73bICWQZxNmxTPo8vWQasUigrGV9Q
 ###
 POST http://localhost:5555/users/register HTTP/1.1
 Content-Type: application/json
@@ -82,19 +82,19 @@ Content-Type: application/json
 }
 ###
 GET http://localhost:5555/users/login HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGMuY29tIiwiaWQiOiI2MzUwNWI0Nzc4YjQ2N2Y5OTk5OWE1ODgiLCJpYXQiOjE2NjYyMTA2NTAsImV4cCI6MTY2NjM4MzQ1MH0.iC2iZ87IlSpRf5JYk8xkBiGZJVvaMp04DK0Xzh6ro3w
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZCI6IjYzNTU4ZWY0YjE0ZWRiN2I1MjgxMzAyZCIsImlhdCI6MTY2NjU1MTU2MiwiZXhwIjoxNjY2NzI0MzYyfQ.x18ZF03LY1lD5Z73bICWQZxNmxTPo8vWQasUigrGV9Q
 ###
 POST http://localhost:5555/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "qxc@qxcvbn.com",
+  "email": "qxc@qxcio.com",
   "password": "123456"
 }
 ###
-POST http://localhost:5555/users/635563768889a4d53391ace3/avatar HTTP/1.1
+POST http://localhost:5555/users/63558ef4b14edb7b5281302d/avatar HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZCI6IjYzNTU2Mzc2ODg4OWE0ZDUzMzkxYWNlMyIsImlhdCI6MTY2NjU0MDYxNiwiZXhwIjoxNjY2NzEzNDE2fQ.uWCqf16YolNzxtMFBIDQG0l-i5MSS-0Ogp3DKCsY64w
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZCI6IjYzNTU4ZWY0YjE0ZWRiN2I1MjgxMzAyZCIsImlhdCI6MTY2NjU1MTU2MiwiZXhwIjoxNjY2NzI0MzYyfQ.x18ZF03LY1lD5Z73bICWQZxNmxTPo8vWQasUigrGV9Q
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="avatar"; filename="avatar.png"

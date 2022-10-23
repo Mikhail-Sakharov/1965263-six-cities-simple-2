@@ -5,11 +5,10 @@ import {Offer} from '../types/offer.type.js';
 
 export const createOffer = (row: string) => {
   const tokens = row.replace('\n', '').split('\t');
-  const [title, description, date, city, previewImage, images, isPremium, rating, type, bedrooms, maxAdults, price, goods, host, commentsCount, location] = tokens;
+  const [title, description, city, previewImage, images, isPremium, type, bedrooms, maxAdults, price, goods, host, location] = tokens;
   return {
     title,
     description,
-    date,
     city: {
       name: city.split(';')[0],
       location: {
@@ -20,7 +19,6 @@ export const createOffer = (row: string) => {
     previewImage,
     images: images.split(';').map((url) => url),
     isPremium: Boolean(isPremium),
-    rating: Number(rating),
     type,
     bedrooms: Number(bedrooms),
     maxAdults: Number(maxAdults),
@@ -33,7 +31,6 @@ export const createOffer = (row: string) => {
       password,
       isPro: Boolean(isPro)
     }))[0],
-    commentsCount: Number(commentsCount),
     location: [location.split(';')].map(([latitude, longitude]) => ({
       latitude: Number(latitude),
       longitude: Number(longitude)
