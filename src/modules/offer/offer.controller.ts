@@ -71,8 +71,9 @@ export default class OfferController extends Controller {
     });
   }
 
-  public async index(_req: Request, res: Response): Promise<void> {
-    const offers = await this.offerService.find();
+  public async index(req: Request, res: Response): Promise<void> {
+    const offersCount = Number(req.query.offersCount);
+    const offers = await this.offerService.find(offersCount);
     const offersResponse = fillDTO(OfferResponse, offers);
     this.ok(res, offersResponse);
   }

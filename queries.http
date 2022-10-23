@@ -13,6 +13,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGMuY29tIiwiaWQiO
 ###
 GET http://localhost:5555/offers HTTP/1.1
 ###
+GET http://localhost:5555/offers/?offersCount=4 HTTP/1.1
+###
 GET http://localhost:5555/offers/635062490a6044ef6030f45b HTTP/1.1
 ###
 POST http://localhost:5555/offers/create HTTP/1.1

@@ -12,8 +12,5 @@ export default class CreateCommentDto {
 
   public hostId!: string;
 
-  // валидация выполняется раньше, чем объект формируется для отправки в метод create коммент-сервиса!
-  // ещё один dto для контроллера?
-  // @IsMongoId({message: 'The "offerId" field should be a valid MongoDB id'})
   public offerId!: string;
 }
