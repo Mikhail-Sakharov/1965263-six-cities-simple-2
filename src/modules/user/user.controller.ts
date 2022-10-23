@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
 import {inject, injectable} from 'inversify';
 import {StatusCodes} from 'http-status-codes';
+import * as core from 'express-serve-static-core';
 import {Controller} from '../../common/controller/controller.js';
 import {Component} from '../../types/component.types.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
@@ -17,6 +18,11 @@ import {ValidateObjectIdMiddleware} from '../../common/middlewares/validate-obje
 import {UploadFileMiddleware} from '../../common/middlewares/upload-file.middleware.js';
 import {JWT_ALGORITHM} from './user.constant.js';
 import LoggedUserResponse from './response/logged-user.response.js';
+import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
+
+type GetUserParams = {
+  id: string;
+}
 
 @injectable()
 export default class UserController extends Controller {
@@ -46,6 +52,7 @@ export default class UserController extends Controller {
       method: HttpMethod.Post,
       handler: this.uploadAvatar,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('id'),
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar')
       ]
@@ -109,9 +116,24 @@ export default class UserController extends Controller {
     this.ok(res, fillDTO(LoggedUserResponse, {email: user.email, token}));
   }
 
-  public async uploadAvatar(req: Request, res: Response) {
+  public async uploadAvatar(
+    {params, user, file}: Request<core.ParamsDictionary | GetUserParams>,
+    res: Response
+  ) {
+    const createdUser = await this.userService.findById(params.id);
+    const userEmail = fillDTO(UserResponse, createdUser).email;
+
+    if (user.email !== userEmail) {
+      throw new HttpError(
+        StatusCodes.FORBIDDEN,
+        'Forbidden',
+        'UserController: uploadAvatar'
+      );
+    }
+
+    await this.userService.updateById(params.id, {avatarUrl: file?.path});
     this.created(res, {
-      filepath: req.file?.path
+      filepath: file?.path
     });
   }
 

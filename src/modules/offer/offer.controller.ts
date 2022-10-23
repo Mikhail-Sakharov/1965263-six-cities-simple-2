@@ -17,9 +17,8 @@ import {DocumentExistsMiddleware} from '../../common/middlewares/document-exists
 import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
 import {CommentServiceInterface} from '../comment/comment-service.interface.js';
 import HttpError from '../../common/errors/http-error.js'; // Двойные импорты!
-//import {instanceToPlain} from 'class-transformer';
 
-type ParamsGetOffer = {
+type GetOfferParams = {
   id: string;
 }
 
@@ -84,7 +83,7 @@ export default class OfferController extends Controller {
   }
 
   public async show(
-    {params}: Request<core.ParamsDictionary | ParamsGetOffer>,
+    {params}: Request<core.ParamsDictionary | GetOfferParams>,
     res: Response
   ) {
     const {id} = params;
@@ -104,7 +103,7 @@ export default class OfferController extends Controller {
   }
 
   public async update(
-    {body, params, user}: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDto>,
+    {body, params, user}: Request<core.ParamsDictionary | GetOfferParams, Record<string, unknown>, UpdateOfferDto>,
     res: Response
   ): Promise<void> {
     const offer = await this.offerService.findById(params.id);
@@ -124,7 +123,7 @@ export default class OfferController extends Controller {
   }
 
   public async delete(
-    {params, user}: Request<core.ParamsDictionary | ParamsGetOffer>,
+    {params, user}: Request<core.ParamsDictionary | GetOfferParams>,
     res: Response
   ): Promise<void> {
     const offer = await this.offerService.findById(params.id);

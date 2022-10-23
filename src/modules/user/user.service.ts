@@ -6,6 +6,7 @@ import {UserServiceInterface} from './user-service.interface.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js'; // Двойные импорты!
 import {Component} from '../../types/component.types.js'; // Двойные импорты!
 import LoginUserDto from './dto/login-user.dto.js';
+import UpdateUserDto from './dto/update-user.dto.js';
 
 @injectable()
 export default class UserService implements UserServiceInterface {
@@ -32,7 +33,13 @@ export default class UserService implements UserServiceInterface {
   }
 
   public async findById(id: string): Promise<DocumentType<UserEntity> | null> {
-    return this.userModel.findOne({id});
+    return this.userModel.findById(id).exec();
+  }
+
+  public async updateById(userId: string, dto: UpdateUserDto): Promise<DocumentType<UserEntity> | null> {
+    return this.userModel
+      .findByIdAndUpdate(userId, dto, {new: true})
+      .exec();
   }
 
   public async findOrCreate(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
