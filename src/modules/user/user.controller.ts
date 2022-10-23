@@ -58,9 +58,17 @@ export default class UserController extends Controller {
   }
 
   public async create(
-    {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
+    {body, user}: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
     res: Response
   ): Promise<void> {
+    if (user) {
+      throw new HttpError(
+        StatusCodes.CONFLICT,
+        'Only unauthorized users can be registered',
+        'UserController'
+      );
+    }
+
     const existsUser = await this.userService.findByEmail(body.email);
 
     if (existsUser) {

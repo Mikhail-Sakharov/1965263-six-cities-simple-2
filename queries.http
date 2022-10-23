@@ -71,10 +71,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGMuY29tIiwiaWQiO
 ###
 POST http://localhost:5555/users/register HTTP/1.1
 Content-Type: application/json
+//Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNhLmNvbSIsImlkIjoiNjM1NTUxYzIzMTE3MjU0YTFkMTg0NmVmIiwiaWF0IjoxNjY2NTM1ODg1LCJleHAiOjE2NjY3MDg2ODV9.k_KZCmNrpfq64zYfvQ3Dv_ms-9JenTZ9RABJKGdKTxU
 
 {
   "name": "Johnn",
-  "email": "qxc@qxca.com",
+  "email": "qxc@qxca1.com",
   "avatarUrl": "https://8.react.pages.academy/static/hotel/14.jpg",
   "password": "123456",
   "isPro": true
