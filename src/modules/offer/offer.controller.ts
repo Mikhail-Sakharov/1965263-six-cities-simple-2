@@ -14,6 +14,7 @@ import {ValidateObjectIdMiddleware} from '../../common/middlewares/validate-obje
 import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware.js'; // Двойные импорты!
 import {DocumentExistsMiddleware} from '../../common/middlewares/document-exists.middleware.js'; // Двойные импорты!
 import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
+import {CommentServiceInterface} from '../comment/comment-service.interface.js';
 
 type ParamsGetOffer = {
   id: string;
@@ -23,7 +24,8 @@ type ParamsGetOffer = {
 export default class OfferController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
-    @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface
+    @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface,
+    @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface
   ) {
     super(logger);
 
@@ -113,6 +115,7 @@ export default class OfferController extends Controller {
     res: Response
   ): Promise<void> {
     const offer = await this.offerService.findByIdAndDelete(params.id);
+    await this.commentService.deleteByOfferId(params.id);
     this.noContent(res, offer);
   }
 }
