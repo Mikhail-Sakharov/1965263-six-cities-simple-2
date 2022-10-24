@@ -1,7 +1,10 @@
 import crypto from 'crypto';
 import * as jose from 'jose';
 import {plainToInstance, ClassConstructor} from 'class-transformer';
+import {ValidationError} from 'class-validator';
 import {Offer} from '../types/offer.type.js';
+import {ValidationErrorField} from '../types/validation-error-field.type.js';
+import {ServiceError} from '../types/service-error.enum.js';
 
 export const createOffer = (row: string) => {
   const tokens = row.replace('\n', '').split('\t');
@@ -49,8 +52,10 @@ export const createSHA256 = (line: string, salt: string): string => {
 export const fillDTO = <T, V>(someDto: ClassConstructor<T>, plainObject: V) =>
   plainToInstance(someDto, plainObject, {excludeExtraneousValues: true});
 
-export const createErrorObject = (message: string) => ({
-  error: message,
+export const createErrorObject = (serviceError: ServiceError, message: string, details: ValidationErrorField[] = []) => ({
+  errorType: serviceError,
+  message,
+  details: [...details]
 });
 
 export const createJWT = async (algoritm: string, jwtSecret: string, payload: object): Promise<string> =>
@@ -59,3 +64,10 @@ export const createJWT = async (algoritm: string, jwtSecret: string, payload: ob
     .setIssuedAt()
     .setExpirationTime('2d')
     .sign(crypto.createSecretKey(jwtSecret, 'utf-8'));
+
+export const transformErrors = (errors: ValidationError[]): ValidationErrorField[] =>
+  errors.map(({property, value, constraints}) => ({
+    property,
+    value,
+    messages: constraints ? Object.values(constraints) : []
+  }));
