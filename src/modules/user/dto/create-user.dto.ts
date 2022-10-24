@@ -8,9 +8,6 @@ export default class CreateUserDto {
   @IsEmail({}, {message: 'email must be a valid address'})
   public email!: string;
 
-  @MaxLength(256, {message: 'Too long for the field "avatarUrl"'})
-  public avatarUrl!: string;
-
   @IsString({message: 'password is required'})
   public password!: string;
 

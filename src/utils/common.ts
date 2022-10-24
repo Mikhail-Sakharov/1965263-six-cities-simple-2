@@ -71,3 +71,5 @@ export const transformErrors = (errors: ValidationError[]): ValidationErrorField
     value,
     messages: constraints ? Object.values(constraints) : []
   }));
+
+export const getFullServerPath = (host: string, port: number) => `http://${host}:${port}`;

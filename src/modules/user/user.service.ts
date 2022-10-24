@@ -7,6 +7,7 @@ import {LoggerInterface} from '../../common/logger/logger.interface.js'; // Дв
 import {Component} from '../../types/component.types.js'; // Двойные импорты!
 import LoginUserDto from './dto/login-user.dto.js';
 import UpdateUserDto from './dto/update-user.dto.js';
+import {DEFAULT_AVATAR_FILE_NAME} from './user.constant.js';
 
 @injectable()
 export default class UserService implements UserServiceInterface {
@@ -19,7 +20,7 @@ export default class UserService implements UserServiceInterface {
     if (dto.password.length < 6 || dto.password.length > 12) {
       this.logger.error('Password length must be between 6 and 12 characters');
     }
-    const user = new UserEntity(dto);
+    const user = new UserEntity({...dto, avatarUrl: DEFAULT_AVATAR_FILE_NAME});
     user.setPassword(dto.password, salt);
 
     const result = await this.userModel.create(user);
