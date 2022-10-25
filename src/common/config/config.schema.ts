@@ -77,7 +77,7 @@ export const configSchema = convict<ConfigSchema>({
     doc: 'The static resources directory',
     format: String,
     env: 'STATIC_DIRECTORY',
-    default: './static'
+    default: null
   },
   HOST: {
     doc: 'The server host',

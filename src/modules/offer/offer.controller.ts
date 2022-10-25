@@ -17,6 +17,7 @@ import {DocumentExistsMiddleware} from '../../common/middlewares/document-exists
 import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
 import {CommentServiceInterface} from '../comment/comment-service.interface.js';
 import HttpError from '../../common/errors/http-error.js'; // Двойные импорты!
+import {ConfigInterface} from '../../common/config/config.interface.js';
 
 type GetOfferParams = {
   id: string;
@@ -26,10 +27,11 @@ type GetOfferParams = {
 export default class OfferController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
     @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register routes for OfferController…');
 

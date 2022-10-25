@@ -15,11 +15,11 @@ GET http://localhost:5555/offers HTTP/1.1
 ###
 GET http://localhost:5555/offers/?offersCount=4 HTTP/1.1
 ###
-GET http://localhost:5555/offers/63559056b14edb7b5281305e HTTP/1.1
+GET http://localhost:5555/offers/63580e87534802df15cfbfac HTTP/1.1
 ###
 POST http://localhost:5555/offers/create HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZCI6IjYzNTU4ZWY0YjE0ZWRiN2I1MjgxMzAyZCIsImlhdCI6MTY2NjU1MTU2MiwiZXhwIjoxNjY2NzI0MzYyfQ.x18ZF03LY1lD5Z73bICWQZxNmxTPo8vWQasUigrGV9Q
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZCI6IjYzNTU4ZWY0YjE0ZWRiN2I1MjgxMzAyZCIsImlhdCI6MTY2NjcxNTI0OCwiZXhwIjoxNjY2ODg4MDQ4fQ.pTZJx93ORfrUrZrNz--X1LZKnH1JoLHHfsg-kai5o5g
 
 {
   "title": "$$$$$$$$$$$$$$$$$$",
@@ -56,9 +56,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZ
       }
 }
 ###
-PATCH http://localhost:5555/offers/63559056b14edb7b5281305e/update HTTP/1.1
+PATCH http://localhost:5555/offers/63580e87534802df15cfbfac/update HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZCI6IjYzNTU4ZWY0YjE0ZWRiN2I1MjgxMzAyZCIsImlhdCI6MTY2NjU1MTU2MiwiZXhwIjoxNjY2NzI0MzYyfQ.x18ZF03LY1lD5Z73bICWQZxNmxTPo8vWQasUigrGV9Q
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZCI6IjYzNTU4ZWY0YjE0ZWRiN2I1MjgxMzAyZCIsImlhdCI6MTY2NjcxNTI0OCwiZXhwIjoxNjY2ODg4MDQ4fQ.pTZJx93ORfrUrZrNz--X1LZKnH1JoLHHfsg-kai5o5g
 
 {
   "title": "Updated offer!",
@@ -74,27 +74,27 @@ Content-Type: application/json
 //Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNhLmNvbSIsImlkIjoiNjM1NTUxYzIzMTE3MjU0YTFkMTg0NmVmIiwiaWF0IjoxNjY2NTM1ODg1LCJleHAiOjE2NjY3MDg2ODV9.k_KZCmNrpfq64zYfvQ3Dv_ms-9JenTZ9RABJKGdKTxU
 
 {
-  "name": "Qwerty",
-  "email": "qxc@qxcio.com",
+  "name": "Asdzxc",
+  "email": "zxcvbn@zxcvbn.com",
   "avatarUrl": "",
   "password": "123456",
   "isPro": true
 }
 ###
 GET http://localhost:5555/users/login HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZCI6IjYzNTU4ZWY0YjE0ZWRiN2I1MjgxMzAyZCIsImlhdCI6MTY2NjU1MTU2MiwiZXhwIjoxNjY2NzI0MzYyfQ.x18ZF03LY1lD5Z73bICWQZxNmxTPo8vWQasUigrGV9Q
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Inp4Y3ZibkB6eGN2Ym4uY29tIiwiaWQiOiI2MzU4MjZhN2NlM2NjNjdkMWQzNWQyNDAiLCJpYXQiOjE2NjY3MjE0NzYsImV4cCI6MTY2Njg5NDI3Nn0.wUZ9E7yogaRGdUoxCf80tAA7aJIfnLytpQY_RTuZGCk
 ###
 POST http://localhost:5555/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "qxc@qxcio.com",
+  "email": "zxcvbn@zxcvbn.com",
   "password": "123456"
 }
 ###
 POST http://localhost:5555/users/63558ef4b14edb7b5281302d/avatar HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZCI6IjYzNTU4ZWY0YjE0ZWRiN2I1MjgxMzAyZCIsImlhdCI6MTY2NjU1MTU2MiwiZXhwIjoxNjY2NzI0MzYyfQ.x18ZF03LY1lD5Z73bICWQZxNmxTPo8vWQasUigrGV9Q
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZCI6IjYzNTU4ZWY0YjE0ZWRiN2I1MjgxMzAyZCIsImlhdCI6MTY2NjcxNTI0OCwiZXhwIjoxNjY2ODg4MDQ4fQ.pTZJx93ORfrUrZrNz--X1LZKnH1JoLHHfsg-kai5o5g
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="avatar"; filename="avatar.png"

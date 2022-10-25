@@ -28,10 +28,10 @@ type GetUserParams = {
 export default class UserController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
-    @inject(Component.ConfigInterface) private readonly configService: ConfigInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
     @inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register routes for UserController…');
 
@@ -113,17 +113,20 @@ export default class UserController extends Controller {
       {email: user.email, id: user.id}
     );
 
-    this.ok(res, fillDTO(LoggedUserResponse, {email: user.email, token}));
+    this.ok(res, {
+      ...fillDTO(LoggedUserResponse, user),
+      token
+    });
   }
 
   public async uploadAvatar(
     {params, user, file}: Request<core.ParamsDictionary | GetUserParams>,
     res: Response
   ) {
-    const createdUser = await this.userService.findById(params.id);
-    const userEmail = fillDTO(UserResponse, createdUser).email;
+    const existingUser = await this.userService.findById(params.id);
+    const existingUserEmail = fillDTO(UserResponse, existingUser).email;
 
-    if (user.email !== userEmail) {
+    if (user.email !== existingUserEmail) {
       throw new HttpError(
         StatusCodes.FORBIDDEN,
         'Forbidden',
@@ -131,13 +134,19 @@ export default class UserController extends Controller {
       );
     }
 
-    await this.userService.updateById(params.id, {avatarUrl: file?.path});
-    this.created(res, {
-      filepath: file?.path
-    });
+    const updatedUser = await this.userService.updateById(params.id, {avatarUrl: file?.filename});
+    this.created(res, fillDTO(UserResponse, updatedUser));
   }
 
   public async checkAuthenticate(req: Request, res: Response) {
+    if (!req.user) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
+      );
+    }
+
     const user = await this.userService.findByEmail(req.user.email);
 
     this.ok(res, fillDTO(LoggedUserResponse, user));
