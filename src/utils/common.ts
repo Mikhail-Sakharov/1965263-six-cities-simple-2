@@ -96,7 +96,12 @@ export const transformProperty = (
 export const transformObject = (properties: string[], staticPath: string, uploadPath: string, data:UnknownObject) => {
   properties
     .forEach((property) => transformProperty(property, data, (target: UnknownObject) => {
-      const rootPath = DEFAULT_STATIC_IMAGES.includes(target[property] as string) ? staticPath : uploadPath;
-      target[property] = `${rootPath}/${target[property]}`;
+      if (Array.isArray(target[property])) {
+        const transformedValue = (target[property] as string[]).map((path) => `${staticPath}/${path}`);
+        target[property] = transformedValue;
+      } else {
+        const rootPath = DEFAULT_STATIC_IMAGES.includes(target[property] as string) ? staticPath : uploadPath;
+        target[property] = `${rootPath}/${target[property]}`;
+      }
     }));
 };
