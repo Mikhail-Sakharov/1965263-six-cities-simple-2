@@ -15,11 +15,11 @@ GET http://localhost:5555/offers HTTP/1.1
 ###
 GET http://localhost:5555/offers/?offersCount=4 HTTP/1.1
 ###
-GET http://localhost:5555/offers/63580e87534802df15cfbfac HTTP/1.1
+GET http://localhost:5555/offers/635927991b1455a8de21f7a4 HTTP/1.1
 ###
 POST http://localhost:5555/offers/create HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZCI6IjYzNTU4ZWY0YjE0ZWRiN2I1MjgxMzAyZCIsImlhdCI6MTY2NjcxNTI0OCwiZXhwIjoxNjY2ODg4MDQ4fQ.pTZJx93ORfrUrZrNz--X1LZKnH1JoLHHfsg-kai5o5g
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Inp4Y3ZibkB6eGN2Ym4uY29tIiwiaWQiOiI2MzU4MjZhN2NlM2NjNjdkMWQzNWQyNDAiLCJpYXQiOjE2NjY3ODcwNjIsImV4cCI6MTY2Njk1OTg2Mn0.xkmIEWt7w0fyIISuOQ-YZ7L6mEcCo5i48XxOBDfGXiI
 
 {
   "title": "$$$$$$$$$$$$$$$$$$",
@@ -31,7 +31,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZ
         "longitude": 6.959974
       }
     },
-  "previewImage": "https://8.react.pages.academy/static/hotel/14.jpg",
+  //"previewImage": "https://8.react.pages.academy/static/hotel/14.jpg",
   "images": [
     "https://8.react.pages.academy/static/hotel/1.jpg",
     "https://8.react.pages.academy/static/hotel/2.jpg",
@@ -56,9 +56,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZ
       }
 }
 ###
-PATCH http://localhost:5555/offers/63580e87534802df15cfbfac/update HTTP/1.1
+PATCH http://localhost:5555/offers/635927991b1455a8de21f7a4/update HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZCI6IjYzNTU4ZWY0YjE0ZWRiN2I1MjgxMzAyZCIsImlhdCI6MTY2NjcxNTI0OCwiZXhwIjoxNjY2ODg4MDQ4fQ.pTZJx93ORfrUrZrNz--X1LZKnH1JoLHHfsg-kai5o5g
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Inp4Y3ZibkB6eGN2Ym4uY29tIiwiaWQiOiI2MzU4MjZhN2NlM2NjNjdkMWQzNWQyNDAiLCJpYXQiOjE2NjY3ODcwNjIsImV4cCI6MTY2Njk1OTg2Mn0.xkmIEWt7w0fyIISuOQ-YZ7L6mEcCo5i48XxOBDfGXiI
 
 {
   "title": "Updated offer!",
@@ -74,9 +74,9 @@ Content-Type: application/json
 //Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNhLmNvbSIsImlkIjoiNjM1NTUxYzIzMTE3MjU0YTFkMTg0NmVmIiwiaWF0IjoxNjY2NTM1ODg1LCJleHAiOjE2NjY3MDg2ODV9.k_KZCmNrpfq64zYfvQ3Dv_ms-9JenTZ9RABJKGdKTxU
 
 {
-  "name": "Asdzxc",
-  "email": "zxcvbn@zxcvbn.com",
-  "avatarUrl": "",
+  "name": "Vfghbn",
+  "email": "zxcvbn@zxcvbng.com",
+  //"avatarUrl": "",
   "password": "123456",
   "isPro": true
 }
@@ -94,11 +94,22 @@ Content-Type: application/json
 ###
 POST http://localhost:5555/users/63558ef4b14edb7b5281302d/avatar HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InF4Y0BxeGNpby5jb20iLCJpZCI6IjYzNTU4ZWY0YjE0ZWRiN2I1MjgxMzAyZCIsImlhdCI6MTY2NjcxNTI0OCwiZXhwIjoxNjY2ODg4MDQ4fQ.pTZJx93ORfrUrZrNz--X1LZKnH1JoLHHfsg-kai5o5g
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Inp4Y3ZibkB6eGN2Ym4uY29tIiwiaWQiOiI2MzU4MjZhN2NlM2NjNjdkMWQzNWQyNDAiLCJpYXQiOjE2NjY3ODcwNjIsImV4cCI6MTY2Njk1OTg2Mn0.xkmIEWt7w0fyIISuOQ-YZ7L6mEcCo5i48XxOBDfGXiI
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="avatar"; filename="avatar.png"
 Content-Type: image/png
 
 < /home/mikhail/tmp/avatar.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+###
+POST http://localhost:5555/offers/635927991b1455a8de21f7a4/preview HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Inp4Y3ZibkB6eGN2Ym4uY29tIiwiaWQiOiI2MzU4MjZhN2NlM2NjNjdkMWQzNWQyNDAiLCJpYXQiOjE2NjY3ODcwNjIsImV4cCI6MTY2Njk1OTg2Mn0.xkmIEWt7w0fyIISuOQ-YZ7L6mEcCo5i48XxOBDfGXiI
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="preview"; filename="room.jpg"
+Content-Type: image/jpeg
+
+< ./markup/img/room.jpg
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--

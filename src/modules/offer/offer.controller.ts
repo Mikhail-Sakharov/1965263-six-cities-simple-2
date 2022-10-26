@@ -18,6 +18,8 @@ import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.mid
 import {CommentServiceInterface} from '../comment/comment-service.interface.js';
 import HttpError from '../../common/errors/http-error.js'; // Двойные импорты!
 import {ConfigInterface} from '../../common/config/config.interface.js';
+import {UploadFileMiddleware} from '../../common/middlewares/upload-file.middleware.js';
+import UploadPreviewResponse from './response/upload-preview.response.js';
 
 type GetOfferParams = {
   id: string;
@@ -73,6 +75,17 @@ export default class OfferController extends Controller {
         new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('id'),
         new DocumentExistsMiddleware(this.offerService, 'id')
+      ]
+    });
+    this.addRoute({
+      path: '/:id/preview',
+      method: HttpMethod.Post,
+      handler: this.uploadPreview,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('id'),
+        new DocumentExistsMiddleware(this.offerService, 'id'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'preview')
       ]
     });
   }
@@ -142,5 +155,25 @@ export default class OfferController extends Controller {
     const deletedOffer = await this.offerService.findByIdAndDelete(params.id);
     await this.commentService.deleteByOfferId(params.id);
     this.noContent(res, deletedOffer);
+  }
+
+  public async uploadPreview(
+    {file, params, user}: Request<core.ParamsDictionary | GetOfferParams>,
+    res: Response
+  ): Promise<void> {
+    const offer = await this.offerService.findById(params.id);
+    const offerCreatorEmail = fillDTO(OfferResponse, offer).host.email;
+
+    if (user.email !== offerCreatorEmail) {
+      throw new HttpError(
+        StatusCodes.FORBIDDEN,
+        'Forbidden',
+        'OfferController: uploadPreview'
+      );
+    }
+
+    const updatedOffer = await this.offerService.findByIdAndUpdate(params.id, {previewImage: file?.filename});
+    const offerResponse = fillDTO(UploadPreviewResponse, updatedOffer);
+    this.ok(res, offerResponse);
   }
 }

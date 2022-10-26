@@ -97,11 +97,11 @@ export const transformObject = (properties: string[], staticPath: string, upload
   properties
     .forEach((property) => transformProperty(property, data, (target: UnknownObject) => {
       if (Array.isArray(target[property])) {
-        const transformedValue = (target[property] as string[]).map((path) => `${staticPath}/${path}`);
+        const transformedValue = (target[property] as string[]).map((path) => path === '' ? '' : `${staticPath}/${path}`);
         target[property] = transformedValue;
       } else {
         const rootPath = DEFAULT_STATIC_IMAGES.includes(target[property] as string) ? staticPath : uploadPath;
-        target[property] = `${rootPath}/${target[property]}`;
+        target[property] = target[property] === '' ? '' : `${rootPath}/${target[property]}`;
       }
     }));
 };

@@ -7,7 +7,7 @@ import {MiddlewareInterface} from '../../types/middleware.interface.js';
 export class UploadFileMiddleware implements MiddlewareInterface {
   constructor(
     private uploadDirectory: string,
-    private fieldName: string,
+    private fieldName: string // имя поля формы, передаётся в заголовке Content-Disposition: name="preview"
   ) {}
 
   public async execute(req: Request, res: Response, next: NextFunction): Promise<void> {
