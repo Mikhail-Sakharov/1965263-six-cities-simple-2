@@ -1,13 +1,13 @@
 import {Type} from 'class-transformer';
 import {
-  ArrayMaxSize,
-  ArrayMinSize,
+  /* ArrayMaxSize,
+  ArrayMinSize, */
   IsArray,
   IsBoolean,
   IsEnum,
   IsInt,
   IsNumber,
-  IsString,
+  //IsString,
   Max,
   MaxLength,
   Min,
@@ -69,12 +69,6 @@ export default class CreateOfferDto {
   @ValidateNested({each: true})
   @Type(() => City)
   public city!: City;
-
-  @IsArray({message: 'The field "images" should be an array'})
-  @ArrayMinSize(6)
-  @ArrayMaxSize(6)
-  @IsString({each: true})
-  public images!: [string, string, string, string, string, string];
 
   @IsBoolean({message: 'The field "isPremium" should be a boolean'})
   public isPremium!: boolean;

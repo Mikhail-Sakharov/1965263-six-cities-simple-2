@@ -20,6 +20,8 @@ import HttpError from '../../common/errors/http-error.js'; // Двойные и�
 import {ConfigInterface} from '../../common/config/config.interface.js';
 import {UploadFileMiddleware} from '../../common/middlewares/upload-file.middleware.js';
 import UploadPreviewResponse from './response/upload-preview.response.js';
+import {UploadMultipleFilesMiddleware} from '../../common/middlewares/upload-multiple-files.middleware.js';
+import UploadImagesResponse from './response/upload-images.response.js';
 
 type GetOfferParams = {
   id: string;
@@ -86,6 +88,17 @@ export default class OfferController extends Controller {
         new ValidateObjectIdMiddleware('id'),
         new DocumentExistsMiddleware(this.offerService, 'id'),
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'preview')
+      ]
+    });
+    this.addRoute({
+      path: '/:id/images',
+      method: HttpMethod.Post,
+      handler: this.uploadImages,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('id'),
+        new DocumentExistsMiddleware(this.offerService, 'id'),
+        new UploadMultipleFilesMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'images')
       ]
     });
   }
@@ -174,6 +187,28 @@ export default class OfferController extends Controller {
 
     const updatedOffer = await this.offerService.findByIdAndUpdate(params.id, {previewImage: file?.filename});
     const offerResponse = fillDTO(UploadPreviewResponse, updatedOffer);
+    this.ok(res, offerResponse);
+  }
+
+  public async uploadImages(
+    {files, params, user}: Request<core.ParamsDictionary | GetOfferParams>,
+    res: Response
+  ): Promise<void> {
+    const offer = await this.offerService.findById(params.id);
+    const offerCreatorEmail = fillDTO(OfferResponse, offer).host.email;
+
+    if (user.email !== offerCreatorEmail) {
+      throw new HttpError(
+        StatusCodes.FORBIDDEN,
+        'Forbidden',
+        'OfferController: uploadImages'
+      );
+    }
+
+    const images = (files as Express.Multer.File[])?.map((file) => file.filename) as [string, string, string, string, string, string];
+
+    const updatedOffer = await this.offerService.findByIdAndUpdate(params.id, {images});
+    const offerResponse = fillDTO(UploadImagesResponse, updatedOffer);
     this.ok(res, offerResponse);
   }
 }

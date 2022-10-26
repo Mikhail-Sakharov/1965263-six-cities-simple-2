@@ -15,7 +15,7 @@ GET http://localhost:5555/offers HTTP/1.1
 ###
 GET http://localhost:5555/offers/?offersCount=4 HTTP/1.1
 ###
-GET http://localhost:5555/offers/635927991b1455a8de21f7a4 HTTP/1.1
+GET http://localhost:5555/offers/6359642bf9e16d7987d855b9 HTTP/1.1
 ###
 POST http://localhost:5555/offers/create HTTP/1.1
 Content-Type: application/json
@@ -32,14 +32,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Inp4Y3ZibkB6eGN2Ym4uY29tI
       }
     },
   //"previewImage": "https://8.react.pages.academy/static/hotel/14.jpg",
-  "images": [
-    "https://8.react.pages.academy/static/hotel/1.jpg",
-    "https://8.react.pages.academy/static/hotel/2.jpg",
-    "https://8.react.pages.academy/static/hotel/3.jpg",
-    "https://8.react.pages.academy/static/hotel/4.jpg",
-    "https://8.react.pages.academy/static/hotel/5.jpg",
-    "https://8.react.pages.academy/static/hotel/6.jpg"
-  ],
+  //"images": [
+  //  "https://8.react.pages.academy/static/hotel/1.jpg",
+  //  "https://8.react.pages.academy/static/hotel/2.jpg",
+  //  "https://8.react.pages.academy/static/hotel/3.jpg",
+  //  "https://8.react.pages.academy/static/hotel/4.jpg",
+  //  "https://8.react.pages.academy/static/hotel/5.jpg",
+  //  "https://8.react.pages.academy/static/hotel/6.jpg"
+  //],
   "isPremium": true,
   "type": "hotel",
   "bedrooms": 2,
@@ -56,7 +56,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Inp4Y3ZibkB6eGN2Ym4uY29tI
       }
 }
 ###
-PATCH http://localhost:5555/offers/635927991b1455a8de21f7a4/update HTTP/1.1
+PATCH http://localhost:5555/offers/6359642bf9e16d7987d855b9/update HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Inp4Y3ZibkB6eGN2Ym4uY29tIiwiaWQiOiI2MzU4MjZhN2NlM2NjNjdkMWQzNWQyNDAiLCJpYXQiOjE2NjY3ODcwNjIsImV4cCI6MTY2Njk1OTg2Mn0.xkmIEWt7w0fyIISuOQ-YZ7L6mEcCo5i48XxOBDfGXiI
 
@@ -103,12 +103,48 @@ Content-Type: image/png
 < /home/mikhail/tmp/avatar.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 ###
-POST http://localhost:5555/offers/635927991b1455a8de21f7a4/preview HTTP/1.1
+POST http://localhost:5555/offers/6359642bf9e16d7987d855b9/preview HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Inp4Y3ZibkB6eGN2Ym4uY29tIiwiaWQiOiI2MzU4MjZhN2NlM2NjNjdkMWQzNWQyNDAiLCJpYXQiOjE2NjY3ODcwNjIsImV4cCI6MTY2Njk1OTg2Mn0.xkmIEWt7w0fyIISuOQ-YZ7L6mEcCo5i48XxOBDfGXiI
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="preview"; filename="room.jpg"
+Content-Type: image/jpeg
+
+< ./markup/img/room.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+###
+POST http://localhost:5555/offers/6359642bf9e16d7987d855b9/images HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Inp4Y3ZibkB6eGN2Ym4uY29tIiwiaWQiOiI2MzU4MjZhN2NlM2NjNjdkMWQzNWQyNDAiLCJpYXQiOjE2NjY3ODcwNjIsImV4cCI6MTY2Njk1OTg2Mn0.xkmIEWt7w0fyIISuOQ-YZ7L6mEcCo5i48XxOBDfGXiI
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="room.jpg"
+Content-Type: image/jpeg
+
+< ./markup/img/room.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="room.jpg"
+Content-Type: image/jpeg
+
+< ./markup/img/room.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="room.jpg"
+Content-Type: image/jpeg
+
+< ./markup/img/room.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="room.jpg"
+Content-Type: image/jpeg
+
+< ./markup/img/room.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="room.jpg"
+Content-Type: image/jpeg
+
+< ./markup/img/room.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="room.jpg"
 Content-Type: image/jpeg
 
 < ./markup/img/room.jpg

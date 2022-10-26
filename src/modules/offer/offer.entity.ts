@@ -25,7 +25,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({default: ''})
   public previewImage!: string;
 
-  @prop({required: true})
+  @prop({default: []})
   public images!: [string, string, string, string, string, string];
 
   @prop({required: true})
