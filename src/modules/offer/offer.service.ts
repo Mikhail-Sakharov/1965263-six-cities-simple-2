@@ -47,11 +47,12 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
-  public async find(): Promise<DocumentType<OfferEntity>[]> {
+  public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
+    const limit = count ?? OFFERS_LIMIT;
     return this.offerModel
       .find()
       .populate(['hostId'])
-      .limit(OFFERS_LIMIT)
+      .limit(limit)
       .sort({date: SortType.Down})
       .exec();
   }

@@ -13,9 +13,18 @@ import {UserServiceInterface} from '../modules/user/user-service.interface.js';
 import {UserModel} from '../modules/user/user.entity.js';
 import UserService from '../modules/user/user.service.js';
 import {Offer} from '../types/offer.type.js';
+import CreateOfferDto from '../modules/offer/dto/create-offer.dto.js';
 
 const DEFAULT_DB_PORT = 27017;
 const DEFAULT_USER_PASSWORD = '123456';
+
+type HostType = Partial<Pick<Offer, 'host'>>;
+
+type HostIdType = {
+  hostId: string;
+};
+
+type ResultType = HostType & HostIdType;
 
 export default class ImportCommand implements CliCommandInterface {
   public readonly name = '--import';
@@ -43,11 +52,10 @@ export default class ImportCommand implements CliCommandInterface {
     }, this.salt);
 
     const hostId = String(host._id);
+    const transformedOffer: ResultType = {...offer, hostId};
+    delete transformedOffer.host;
 
-    await this.offerService.create({
-      ...offer,
-      hostId
-    });
+    await this.offerService.create(transformedOffer as CreateOfferDto);
   }
 
   private async onLine(line: string, resolve: () => void) {

@@ -6,6 +6,8 @@ import {UserServiceInterface} from './user-service.interface.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js'; // Двойные импорты!
 import {Component} from '../../types/component.types.js'; // Двойные импорты!
 import LoginUserDto from './dto/login-user.dto.js';
+import UpdateUserDto from './dto/update-user.dto.js';
+import {DEFAULT_AVATAR_FILE_NAME} from './user.constant.js';
 
 @injectable()
 export default class UserService implements UserServiceInterface {
@@ -18,7 +20,7 @@ export default class UserService implements UserServiceInterface {
     if (dto.password.length < 6 || dto.password.length > 12) {
       this.logger.error('Password length must be between 6 and 12 characters');
     }
-    const user = new UserEntity(dto);
+    const user = new UserEntity({...dto, avatarUrl: DEFAULT_AVATAR_FILE_NAME});
     user.setPassword(dto.password, salt);
 
     const result = await this.userModel.create(user);
@@ -32,7 +34,13 @@ export default class UserService implements UserServiceInterface {
   }
 
   public async findById(id: string): Promise<DocumentType<UserEntity> | null> {
-    return this.userModel.findOne({id});
+    return this.userModel.findById(id).exec();
+  }
+
+  public async updateById(userId: string, dto: UpdateUserDto): Promise<DocumentType<UserEntity> | null> {
+    return this.userModel
+      .findByIdAndUpdate(userId, dto, {new: true})
+      .exec();
   }
 
   public async findOrCreate(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {

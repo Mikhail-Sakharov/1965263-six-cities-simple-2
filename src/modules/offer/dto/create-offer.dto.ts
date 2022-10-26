@@ -1,15 +1,13 @@
-//import {City, Good, Location, OfferType} from '../../../types/offer.type.js'; // Двойные импорты!
 import {Type} from 'class-transformer';
 import {
-  ArrayMaxSize,
-  ArrayMinSize,
+  /* ArrayMaxSize,
+  ArrayMinSize, */
   IsArray,
   IsBoolean,
   IsEnum,
   IsInt,
-  //IsMongoId,
   IsNumber,
-  IsString,
+  //IsString,
   Max,
   MaxLength,
   Min,
@@ -72,15 +70,6 @@ export default class CreateOfferDto {
   @Type(() => City)
   public city!: City;
 
-  @MaxLength(256, {message: 'Too long for the field "previewImage"'})
-  public previewImage!: string;
-
-  @IsArray({message: 'The field "images" should be an array'})
-  @ArrayMinSize(6)
-  @ArrayMaxSize(6)
-  @IsString({each: true})
-  public images!: [string, string, string, string, string, string];
-
   @IsBoolean({message: 'The field "isPremium" should be a boolean'})
   public isPremium!: boolean;
 
@@ -106,7 +95,6 @@ export default class CreateOfferDto {
   @IsEnum(Good, {each: true})
   public goods!: Good[];
 
-  //@IsMongoId({message: 'The "hostId" field should be a valid MongoDB id'})
   public hostId!: string;
 
   @ValidateNested({each: true})

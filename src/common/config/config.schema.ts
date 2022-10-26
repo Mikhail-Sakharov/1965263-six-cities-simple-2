@@ -13,6 +13,8 @@ export type ConfigSchema = {
   DB_NAME: string;
   UPLOAD_DIRECTORY: string;
   JWT_SECRET: string;
+  STATIC_DIRECTORY: string;
+  HOST: string;
 }
 
 export const configSchema = convict<ConfigSchema>({
@@ -56,7 +58,7 @@ export const configSchema = convict<ConfigSchema>({
     doc: 'Database name (MongoDB)',
     format: String,
     env: 'DB_NAME',
-    default: 'six-cities-simple-test'
+    default: 'six-cities-simple'
   },
   UPLOAD_DIRECTORY: {
     doc: 'Data storage directory',
@@ -70,5 +72,17 @@ export const configSchema = convict<ConfigSchema>({
     format: String,
     env: 'JWT_SECRET',
     default: null
+  },
+  STATIC_DIRECTORY: {
+    doc: 'The static resources directory',
+    format: String,
+    env: 'STATIC_DIRECTORY',
+    default: null
+  },
+  HOST: {
+    doc: 'The server host',
+    format: String,
+    env: 'HOST',
+    default: 'localhost'
   }
 });

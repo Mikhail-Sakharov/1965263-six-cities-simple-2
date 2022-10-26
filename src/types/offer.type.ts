@@ -68,18 +68,15 @@ export type Host = {
 export type Offer = {
   title: string;
   description: string;
-  date: string;
   city: City;
   previewImage: string;
   images: [string, string, string, string, string, string];
   isPremium: boolean;
-  rating: number;
   type: OfferType;
   bedrooms: number;
   maxAdults: number;
   price: number;
   goods: Good[];
   host: Host;
-  commentsCount: number;
   location: Location;
 };

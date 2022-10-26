@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
 import {inject, injectable} from 'inversify';
 import {StatusCodes} from 'http-status-codes';
+import * as core from 'express-serve-static-core';
 import {Controller} from '../../common/controller/controller.js';
 import {Component} from '../../types/component.types.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
@@ -17,15 +18,20 @@ import {ValidateObjectIdMiddleware} from '../../common/middlewares/validate-obje
 import {UploadFileMiddleware} from '../../common/middlewares/upload-file.middleware.js';
 import {JWT_ALGORITHM} from './user.constant.js';
 import LoggedUserResponse from './response/logged-user.response.js';
+import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
+
+type GetUserParams = {
+  id: string;
+}
 
 @injectable()
 export default class UserController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
-    @inject(Component.ConfigInterface) private readonly configService: ConfigInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
     @inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register routes for UserController…');
 
@@ -46,6 +52,7 @@ export default class UserController extends Controller {
       method: HttpMethod.Post,
       handler: this.uploadAvatar,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('id'),
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar')
       ]
@@ -58,9 +65,17 @@ export default class UserController extends Controller {
   }
 
   public async create(
-    {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
+    {body, user}: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
     res: Response
   ): Promise<void> {
+    if (user) {
+      throw new HttpError(
+        StatusCodes.CONFLICT,
+        'Only unauthorized users can be registered',
+        'UserController'
+      );
+    }
+
     const existsUser = await this.userService.findByEmail(body.email);
 
     if (existsUser) {
@@ -98,16 +113,40 @@ export default class UserController extends Controller {
       {email: user.email, id: user.id}
     );
 
-    this.ok(res, fillDTO(LoggedUserResponse, {email: user.email, token}));
-  }
-
-  public async uploadAvatar(req: Request, res: Response) {
-    this.created(res, {
-      filepath: req.file?.path
+    this.ok(res, {
+      ...fillDTO(LoggedUserResponse, user),
+      token
     });
   }
 
+  public async uploadAvatar(
+    {params, user, file}: Request<core.ParamsDictionary | GetUserParams>,
+    res: Response
+  ) {
+    const existingUser = await this.userService.findById(params.id);
+    const existingUserEmail = fillDTO(UserResponse, existingUser).email;
+
+    if (user.email !== existingUserEmail) {
+      throw new HttpError(
+        StatusCodes.FORBIDDEN,
+        'Forbidden',
+        'UserController: uploadAvatar'
+      );
+    }
+
+    const updatedUser = await this.userService.updateById(params.id, {avatarUrl: file?.filename});
+    this.created(res, fillDTO(UserResponse, updatedUser));
+  }
+
   public async checkAuthenticate(req: Request, res: Response) {
+    if (!req.user) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
+      );
+    }
+
     const user = await this.userService.findByEmail(req.user.email);
 
     this.ok(res, fillDTO(LoggedUserResponse, user));
