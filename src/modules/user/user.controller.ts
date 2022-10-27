@@ -2,23 +2,26 @@ import {Request, Response} from 'express';
 import {inject, injectable} from 'inversify';
 import {StatusCodes} from 'http-status-codes';
 import * as core from 'express-serve-static-core';
-import {Controller} from '../../common/controller/controller.js';
-import {Component} from '../../types/component.types.js';
-import {LoggerInterface} from '../../common/logger/logger.interface.js';
-import {ConfigInterface} from '../../common/config/config.interface.js';
-import {HttpMethod} from '../../types/http-method.enum.js';
-import {UserServiceInterface} from './user-service.interface.js';
 import CreateUserDto from './dto/create-user.dto.js';
-import HttpError from '../../common/errors/http-error.js';
-import {createJWT, fillDTO} from '../../utils/common.js';
+import {UserServiceInterface} from './user-service.interface.js';
 import UserResponse from './response/user.response.js';
 import LoginUserDto from './dto/login-user.dto.js';
-import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware.js';
-import {ValidateObjectIdMiddleware} from '../../common/middlewares/validate-objectid.middleware.js';
-import {UploadFileMiddleware} from '../../common/middlewares/upload-file.middleware.js';
 import {JWT_ALGORITHM} from './user.constant.js';
 import LoggedUserResponse from './response/logged-user.response.js';
-import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
+import {
+  Controller,
+  Component,
+  LoggerInterface,
+  ConfigInterface,
+  HttpMethod,
+  createJWT,
+  fillDTO,
+  ValidateDtoMiddleware,
+  ValidateObjectIdMiddleware,
+  UploadFileMiddleware,
+  PrivateRouteMiddleware,
+  HttpError
+} from '../index.js';
 
 type GetUserParams = {
   id: string;

@@ -1,6 +1,5 @@
-import {MiddlewareInterface} from '../../types/middleware.interface.js'; // Двойные импорты!
+import {MiddlewareInterface, DocumentExistsInterface} from '../index.js';
 import {NextFunction, Request, Response} from 'express';
-import {DocumentExistsInterface} from '../../types/document-exists.interface.js'; // Двойные импорты!
 import HttpError from '../errors/http-error.js';
 import {StatusCodes} from 'http-status-codes';
 

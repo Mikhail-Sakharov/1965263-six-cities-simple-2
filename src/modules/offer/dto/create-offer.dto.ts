@@ -1,13 +1,10 @@
 import {Type} from 'class-transformer';
 import {
-  /* ArrayMaxSize,
-  ArrayMinSize, */
   IsArray,
   IsBoolean,
   IsEnum,
   IsInt,
   IsNumber,
-  //IsString,
   Max,
   MaxLength,
   Min,

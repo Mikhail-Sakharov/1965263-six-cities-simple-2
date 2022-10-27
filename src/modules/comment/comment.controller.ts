@@ -1,20 +1,22 @@
 import {Request, Response} from 'express';
 import {inject, injectable} from 'inversify';
 import * as core from 'express-serve-static-core';
-import {Controller} from '../../common/controller/controller.js'; // Двойные импорты!
-import {Component} from '../../types/component.types.js'; // Двойные импорты!
-import {LoggerInterface} from '../../common/logger/logger.interface.js'; // Двойные импорты!
-import {HttpMethod} from '../../types/http-method.enum.js'; // Двойные импорты!
+import {
+  Controller,
+  Component,
+  LoggerInterface,
+  HttpMethod,
+  fillDTO,
+  ValidateObjectIdMiddleware,
+  ConfigInterface,
+  ValidateDtoMiddleware,
+  DocumentExistsMiddleware,
+  PrivateRouteMiddleware
+} from '../index.js';
 import {CommentServiceInterface} from './comment-service.interface.js';
-import {fillDTO} from '../../utils/common.js'; // Двойные импорты!
 import CommentResponse from './response/comment.response.js';
 import CreateCommentDto from './dto/create-comment.dto.js';
-import {ValidateObjectIdMiddleware} from '../../common/middlewares/validate-objectid.middleware.js';
-import {OfferServiceInterface} from '../offer/offer-service.interface.js'; // Двойные импорты!
-import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware.js'; // Двойные импорты!
-import {DocumentExistsMiddleware} from '../../common/middlewares/document-exists.middleware.js'; // Двойные импорты!
-import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
-import {ConfigInterface} from '../../common/config/config.interface.js';
+import {OfferServiceInterface} from '../offer/offer-service.interface.js';
 
 type ParamsGetOffer = {
   id: string;

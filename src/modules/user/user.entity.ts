@@ -1,7 +1,5 @@
-import {Host} from '../../types/offer.type.js';   // Двойные импорты!
 import typegoose, {getModelForClass, defaultClasses} from '@typegoose/typegoose';
-import {createSHA256} from '../../utils/common.js';   // Двойные импорты!
-import {UserNameLength, EMAIL_REG_EXP, AVATAR_URL_REG_EXP} from '../../const.js';   // Двойные импорты!
+import {Host, createSHA256, UserNameLength, EMAIL_REG_EXP, AVATAR_URL_REG_EXP} from '../index.js';
 
 const {prop, modelOptions} = typegoose;
 

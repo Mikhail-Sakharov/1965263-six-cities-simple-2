@@ -3,12 +3,9 @@ import {Response, Router} from 'express';
 import {StatusCodes} from 'http-status-codes';
 import asyncHandler from 'express-async-handler';
 import {LoggerInterface} from '../logger/logger.interface.js';
-import {RouteInterface} from '../../types/route.interface.js'; // Двойные импорты!
 import {ControllerInterface} from './controller.interface.js';
 import {ConfigInterface} from '../config/config.interface.js';
-import {UnknownObject} from '../../types/unknown-object.type.js';
-import {getFullServerPath, transformObject} from '../../utils/common.js';
-import {STATIC_RESOURCE_FIELDS} from '../../app/application.constant.js';
+import {getFullServerPath, RouteInterface, STATIC_RESOURCE_FIELDS, transformObject, UnknownObject} from '../index.js';
 
 @injectable()
 export abstract class Controller implements ControllerInterface {

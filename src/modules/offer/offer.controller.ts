@@ -2,25 +2,27 @@ import {Request, Response} from 'express';
 import {inject, injectable} from 'inversify';
 import * as core from 'express-serve-static-core';
 import {StatusCodes} from 'http-status-codes';
-import {Controller} from '../../common/controller/controller.js'; // Двойные импорты!
-import {Component} from '../../types/component.types.js'; // Двойные импорты!
-import {LoggerInterface} from '../../common/logger/logger.interface.js'; // Двойные импорты!
-import {HttpMethod} from '../../types/http-method.enum.js'; // Двойные импорты!
+import {
+  Controller,
+  Component,
+  LoggerInterface,
+  HttpMethod,
+  fillDTO,
+  ValidateObjectIdMiddleware,
+  ValidateDtoMiddleware,
+  DocumentExistsMiddleware,
+  HttpError,
+  ConfigInterface,
+  UploadFileMiddleware,
+  UploadMultipleFilesMiddleware
+} from '../index.js';
 import {OfferServiceInterface} from './offer-service.interface.js';
 import OfferResponse from './response/offer.response.js';
-import {fillDTO} from '../../utils/common.js'; // Двойные импорты!
 import CreateOfferDto from './dto/create-offer.dto.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
-import {ValidateObjectIdMiddleware} from '../../common/middlewares/validate-objectid.middleware.js'; // Двойные импорты!
-import {ValidateDtoMiddleware} from '../../common/middlewares/validate-dto.middleware.js'; // Двойные импорты!
-import {DocumentExistsMiddleware} from '../../common/middlewares/document-exists.middleware.js'; // Двойные импорты!
 import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
 import {CommentServiceInterface} from '../comment/comment-service.interface.js';
-import HttpError from '../../common/errors/http-error.js'; // Двойные импорты!
-import {ConfigInterface} from '../../common/config/config.interface.js';
-import {UploadFileMiddleware} from '../../common/middlewares/upload-file.middleware.js';
 import UploadPreviewResponse from './response/upload-preview.response.js';
-import {UploadMultipleFilesMiddleware} from '../../common/middlewares/upload-multiple-files.middleware.js';
 import UploadImagesResponse from './response/upload-images.response.js';
 
 type GetOfferParams = {

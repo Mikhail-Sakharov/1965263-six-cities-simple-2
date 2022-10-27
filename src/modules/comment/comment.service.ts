@@ -1,8 +1,6 @@
 import {types, DocumentType} from '@typegoose/typegoose';
 import {injectable, inject} from 'inversify';
-import {LoggerInterface} from '../../common/logger/logger.interface.js'; // Двойные импорты!
-import {Component} from '../../types/component.types.js'; // Двойные импорты!
-import {SortType} from '../../types/sort-type.enum.js'; // Двойные импорты!
+import {LoggerInterface, Component, SortType} from '../index.js';
 import {OfferServiceInterface} from '../offer/offer-service.interface.js';
 import {CommentServiceInterface} from './comment-service.interface.js';
 import {COMMENTS_COUNT_LIMIT} from './comment.constant.js';
