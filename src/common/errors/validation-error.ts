@@ -1,5 +1,5 @@
-import {ValidationErrorField} from '../../types/validation-error-field.type.js';
 import {StatusCodes} from 'http-status-codes';
+import {ValidationErrorField} from '../index.js';
 
 export default class ValidationError extends Error {
   public httpStatusCode!: number;

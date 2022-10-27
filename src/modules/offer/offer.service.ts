@@ -3,10 +3,8 @@ import {OfferServiceInterface} from './offer-service.interface.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
 import {DocumentType, types} from '@typegoose/typegoose';
 import {OfferEntity} from './offer.entity.js';
-import {Component} from '../../types/component.types.js'; // Двойные импорты!
-import {LoggerInterface} from '../../common/logger/logger.interface.js'; // Двойные импорты!
+import {Component, LoggerInterface, SortType} from '../index.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
-import {SortType} from '../../types/sort-type.enum.js'; // Двойные импорты!
 import {OFFERS_LIMIT} from './offer.constant.js';
 
 @injectable()

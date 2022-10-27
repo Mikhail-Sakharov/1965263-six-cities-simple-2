@@ -1,7 +1,14 @@
-import {BedroomsRange, maxAdultsRange, Price, PasswordDigitsRange} from '../../const.js'; // Двойные импорты!
-import {MockData} from '../../types/mock-data.type.js';
-import {City} from '../../types/offer.type.js'; // Двойные импорты!
-import {getRandomItems, getRandomItem, generateRandomValue} from '../../utils/random.js';
+import {
+  BedroomsRange,
+  maxAdultsRange,
+  Price,
+  PasswordDigitsRange,
+  MockData,
+  City,
+  getRandomItems,
+  getRandomItem,
+  generateRandomValue
+} from '../index.js';
 import {OfferGeneratorInterface} from './offer-generator.interface.js';
 
 export default class OfferGenerator implements OfferGeneratorInterface {

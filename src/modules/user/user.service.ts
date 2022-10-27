@@ -3,8 +3,7 @@ import {UserEntity} from './user.entity.js';
 import {DocumentType, types} from '@typegoose/typegoose';
 import CreateUserDto from './dto/create-user.dto.js';
 import {UserServiceInterface} from './user-service.interface.js';
-import {LoggerInterface} from '../../common/logger/logger.interface.js'; // Двойные импорты!
-import {Component} from '../../types/component.types.js'; // Двойные импорты!
+import {Component, LoggerInterface} from '../index.js';
 import LoginUserDto from './dto/login-user.dto.js';
 import UpdateUserDto from './dto/update-user.dto.js';
 import {DEFAULT_AVATAR_FILE_NAME} from './user.constant.js';

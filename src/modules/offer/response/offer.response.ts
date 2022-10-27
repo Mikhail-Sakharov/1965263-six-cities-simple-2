@@ -1,6 +1,6 @@
 import {Expose, Type} from 'class-transformer';
-import {City, Good, Location, OfferType} from '../../../types/offer.type.js'; // Двойные импорты!
-import UserResponse from '../../user/response/user.response.js'; // Двойные импорты!
+import {City, Good, Location, OfferType} from '../../index.js';
+import UserResponse from '../../user/response/user.response.js';
 
 export default class OfferResponse {
   @Expose()

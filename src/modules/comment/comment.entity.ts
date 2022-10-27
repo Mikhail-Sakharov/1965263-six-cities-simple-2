@@ -1,6 +1,6 @@
 import typegoose, {getModelForClass, defaultClasses, Ref} from '@typegoose/typegoose';
-import {OfferEntity} from '../offer/offer.entity.js'; // Двойные импорты!
-import {UserEntity} from '../user/user.entity.js'; // Двойные импорты!
+import {OfferEntity} from '../offer/offer.entity.js';
+import {UserEntity} from '../user/user.entity.js';
 import {CommentLength, Rating} from './comment.constant.js';
 
 const {prop, modelOptions} = typegoose;

@@ -1,4 +1,3 @@
-//import {City, OfferType, Good, Location} from '../../../types/offer.type.js';  // двойные импорты!
 import {Type} from 'class-transformer';
 import {
   MinLength,

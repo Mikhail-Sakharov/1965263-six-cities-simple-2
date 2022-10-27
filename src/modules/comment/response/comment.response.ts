@@ -1,5 +1,5 @@
 import {Expose, Type} from 'class-transformer';
-import UserResponse from '../../user/response/user.response.js'; // Двойные импорты!
+import UserResponse from '../../user/response/user.response.js';
 
 export default class CommentResponse {
   @Expose()
